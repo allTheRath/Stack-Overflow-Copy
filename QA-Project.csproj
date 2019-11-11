@@ -174,8 +174,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Followed_PostController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\Post_TagController.cs" />
+    <Compile Include="Controllers\TagsController.cs" />
+    <Compile Include="Controllers\User_PostController.cs" />
+    <Compile Include="Controllers\User_Vote_Of_PostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -247,6 +252,31 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\AllTags.cshtml" />
     <Content Include="Views\Home\AllFollowedPost.cshtml" />
+    <Content Include="Views\User_Post\Create.cshtml" />
+    <Content Include="Views\User_Post\Delete.cshtml" />
+    <Content Include="Views\User_Post\Details.cshtml" />
+    <Content Include="Views\User_Post\Edit.cshtml" />
+    <Content Include="Views\User_Post\Index.cshtml" />
+    <Content Include="Views\Tags\Create.cshtml" />
+    <Content Include="Views\Tags\Delete.cshtml" />
+    <Content Include="Views\Tags\Details.cshtml" />
+    <Content Include="Views\Tags\Edit.cshtml" />
+    <Content Include="Views\Tags\Index.cshtml" />
+    <Content Include="Views\Post_Tag\Create.cshtml" />
+    <Content Include="Views\Post_Tag\Delete.cshtml" />
+    <Content Include="Views\Post_Tag\Details.cshtml" />
+    <Content Include="Views\Post_Tag\Edit.cshtml" />
+    <Content Include="Views\Post_Tag\Index.cshtml" />
+    <Content Include="Views\Followed_Post\Create.cshtml" />
+    <Content Include="Views\Followed_Post\Delete.cshtml" />
+    <Content Include="Views\Followed_Post\Details.cshtml" />
+    <Content Include="Views\Followed_Post\Edit.cshtml" />
+    <Content Include="Views\Followed_Post\Index.cshtml" />
+    <Content Include="Views\User_Vote_Of_Post\Create.cshtml" />
+    <Content Include="Views\User_Vote_Of_Post\Delete.cshtml" />
+    <Content Include="Views\User_Vote_Of_Post\Details.cshtml" />
+    <Content Include="Views\User_Vote_Of_Post\Edit.cshtml" />
+    <Content Include="Views\User_Vote_Of_Post\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

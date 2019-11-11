@@ -1,0 +1,45 @@
+﻿@model IEnumerable<QA_Project.Models.User_Vote_Of_Post>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Voter_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Voted_Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Post_Id)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Voter_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Voted_Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Post_Id)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

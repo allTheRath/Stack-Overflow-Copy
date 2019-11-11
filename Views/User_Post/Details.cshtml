@@ -1,0 +1,82 @@
+﻿@model QA_Project.Models.User_Post
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User_Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PostedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Discription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Discription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Voted_Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Voted_Count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Answered_Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Answered_Count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Acceptance_Of_Post)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Acceptance_Of_Post)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Post_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Post_Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Associated_User_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Associated_User_Id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

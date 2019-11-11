@@ -1,0 +1,42 @@
+﻿@model QA_Project.Models.User_Vote_Of_Post
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User_Vote_Of_Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Voter_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Voter_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Voted_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Voted_Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Post_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Post_Id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
