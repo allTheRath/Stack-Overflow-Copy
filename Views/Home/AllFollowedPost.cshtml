@@ -1,0 +1,40 @@
+﻿@model IEnumerable<QA_Project.Models.User_Post>
+
+<p>
+    @Html.ActionLink("Add Answer", "Create_Answer")
+</p>
+<div class="table">
+ 
+@foreach (var item in Model) {
+    <div>
+        <span>
+            @Html.DisplayFor(modelItem => item.PostedOn)
+        </span>
+        <span>
+            @Html.DisplayFor(modelItem => item.Title)
+        </span>
+        <span>
+            @Html.DisplayFor(modelItem => item.Discription)
+        </span>
+        <span>
+            @Html.DisplayFor(modelItem => item.Voted_Count)
+        </span>
+        <span>
+            @Html.DisplayFor(modelItem => item.Answered_Count)
+        </span>
+        <span>
+            @Html.DisplayFor(modelItem => item.Acceptance_Of_Post)
+        </span>
+        <span>
+            @Html.DisplayFor(modelItem => item.Post_Type)
+        </span>
+        <span>
+            @Html.ActionLink("UpVote", "UpVote", new { id = item.Id })
+        </span>
+        <span>
+            @Html.ActionLink("DownVote", "DownVote", new { id = item.Id })
+        </span>
+    </div>
+}
+
+</div>

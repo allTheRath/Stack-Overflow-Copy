@@ -15,8 +15,7 @@ namespace QA_Project.Models
 
         public int Reputation { get; set; }
 
-        // All the posts made by this user.
-        public virtual ICollection<AssociatedUser_Of_Post> Posts { get; set; }  
+        public Badge_Type User_Badge { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -29,9 +28,10 @@ namespace QA_Project.Models
 
     public enum Badge_Type
     {
-        Golden,
+        Rookee,
+        Browne,
         Silver,
-        Browne
+        Golden,
     }
 
     
@@ -40,19 +40,18 @@ namespace QA_Project.Models
         // All posts ..
         public DbSet<User_Post> All_Posts { get; set; }
 
+        //All followed post ids
+        public DbSet<Followed_Post> Followed_Posts { get; set; }
+
         // All tags ..
         public DbSet<Tag> All_Tags { get; set; }
         
         // Each tag association with each post.
         public DbSet<Post_Tag> Tag_Of_Post { get; set; }
 
-        // Each user for each Posts.
-        public DbSet<AssociatedUser_Of_Post> Associated_Users_Of_Posts { get; set; }
-
-        // A comment or answer is a followed post of a question.
-        public DbSet<AssociatedPost_Of_Post> Followed_Post_Of_Posts { get; set; }
-
-        
+        // Each user for each Posts what is voted?.
+        public DbSet<User_Vote_Of_Post> User_Vote_Of_Posts { get; set; }
+    
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

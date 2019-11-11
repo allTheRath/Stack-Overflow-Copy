@@ -1,0 +1,12 @@
+﻿@model IEnumerable<QA_Project.Models.Tag>
+
+<div class="table">
+
+    @foreach (var item in Model)
+    {
+        <span>
+            @Html.ActionLink(item.Tag_Name, "Index", new { searchString = item.Tag_Name })
+        </span>
+    }
+
+</div>
