@@ -1,12 +1,16 @@
 ﻿@model IEnumerable<QA_Project.Models.User_Post>
 
+@{ 
+    Layout = null;
+}
+
 <p>
     @Html.ActionLink("Add Answer", "Create_Answer")
 </p>
 <div class="table">
  
 @foreach (var item in Model) {
-    <div>
+    <div class="answer-box">
         <span>
             @Html.DisplayFor(modelItem => item.PostedOn)
         </span>

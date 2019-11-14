@@ -43,9 +43,9 @@ namespace QA_Project.Models
             return this.dataAccess.GetAllPostsByTag(tag_id);
         }
 
-        public List<User_Post> GetAllTagIdsContainingString(string searchString)
+        public List<User_Post> GetAllPostsContainingString(string searchString)
         {
-            return this.dataAccess.GetAllTagIdsContainingString(searchString);
+            return this.dataAccess.GetAllPostsContainingString(searchString);
         }
 
         public List<Tag> GetAllTagsForPostId(int postId)

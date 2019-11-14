@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace QA_Project.Controllers
 {
@@ -63,14 +65,14 @@ namespace QA_Project.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 // return posts by tag name.. search name..
-
+                questions.AddRange(Application_Business_Logic.GetAllPostsContainingString(searchString));
             }
             else
             {
                 questions.AddRange(Application_Business_Logic.GetAllPosts());
             }
 
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(questions.ToPagedList(pageNumber, pageSize));
         }
@@ -78,18 +80,20 @@ namespace QA_Project.Controllers
         public ActionResult AllTags(int? post_id)
         {
             List<Tag> AllTags = new List<Tag>();
-            if (post_id == null)
+            if (post_id != null)
             {
                 int postid = Convert.ToInt32(post_id);
-                Application_Business_Logic.GetAllTagsForPostId(postid);
+                AllTags.AddRange(Application_Business_Logic.GetAllTagsForPostId(postid));
             }
+
+
             return View(AllTags);
         }
 
         public ActionResult AllFollowedPost(int? post_id)
         {
             List<User_Post> All_Followed_Posts = new List<User_Post>();
-            if(post_id != null)
+            if (post_id != null)
             {
                 int postid = Convert.ToInt32(post_id);
                 All_Followed_Posts.AddRange(Application_Business_Logic.GetAllFollowedPostByPostId(postid));
@@ -108,6 +112,26 @@ namespace QA_Project.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+            //ApplicationDbContext context = new ApplicationDbContext();
+            //var allFollowed = context.Followed_Posts.ToList();
+            //foreach (var f in allFollowed)
+            //{
+            //    if (f.Followed_Post_Id == 0)
+            //    {
+            //        context.Followed_Posts.Remove(f);
+            //        context.SaveChanges();
+            //    }
+            //}
+            //Seeding seeding = new Seeding();
+            ////  This method will be called after migrating to the latest version.
+            //var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            //// Seeding user accounts.
+            ////seeding.SeedUserAccounts(UserManager, context);
+
+            ////Seeding questions and answers with relationship with users. 
+            //seeding.SeedDatabaseWithData(context);
+
 
             return View();
         }

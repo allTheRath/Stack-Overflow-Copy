@@ -16,7 +16,7 @@ namespace QA_Project.Models
         // Geting data from database methods below........
         List<User_Post> GetAllPosts();
         List<User_Post> GetAllPostsByTag(int tag_id);
-        List<User_Post> GetAllTagIdsContainingString(string searchString);
+        List<User_Post> GetAllPostsContainingString(string searchString);
         List<Tag> GetAllTagsForPostId(int postId);
         List<User_Post> GetAllFollowedPostByPostId(int postId);
     }
@@ -66,7 +66,7 @@ namespace QA_Project.Models
             return All_Post_ByTag_Id;
         }
 
-        public List<User_Post> GetAllTagIdsContainingString(string searchString)
+        public List<User_Post> GetAllPostsContainingString(string searchString)
         {
             List<int> allTagIds = new List<int>();
 
@@ -83,8 +83,9 @@ namespace QA_Project.Models
         public List<Tag> GetAllTagsForPostId(int postId)
         {
             List<Tag> AllTags = new List<Tag>();
-            var allTagIds = db.Tag_Of_Post.Where(x => x.Post_Id == postId).Select(x => x.TagId).ToList();
-            foreach (var tagId in allTagIds)
+            var allTagIds = db.Tag_Of_Post.ToList().Where(x => x.Post_Id == postId);
+            var allIds = allTagIds.ToList().Select(x => x.TagId).ToList();
+            foreach (var tagId in allIds)
             {
                 Tag tag = db.All_Tags.Find(tagId);
                 AllTags.Add(tag);
@@ -96,12 +97,13 @@ namespace QA_Project.Models
         public List<User_Post> GetAllFollowedPostByPostId(int postId)
         {
             List<User_Post> user_Posts = new List<User_Post>();
-            var followed_post_ids = db.Followed_Posts.Where(x => x.Main_Post_Id == postId).ToList().OrderByDescending(x => x.Order).Select(x => x.Followed_Post_Id).ToList();
-            foreach (var followed_post_id in followed_post_ids)
+            var followed_post_ids = db.Followed_Posts.Where(x => x.Main_Post_Id == postId).ToList();
+            var fPostIds = followed_post_ids.OrderByDescending(x => x.Order).Select(x => x.Followed_Post_Id).ToList();
+            foreach (var followed_post_id in fPostIds)
             {
                 User_Post user_Post = db.All_Posts.Find(followed_post_id);
                 user_Posts.Add(user_Post);
-            }            
+            }
             return user_Posts;
         }
     }

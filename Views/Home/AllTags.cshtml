@@ -1,12 +1,22 @@
 ﻿@model IEnumerable<QA_Project.Models.Tag>
 
-<div class="table">
-
+@{
+    Layout = null;
+}
+<div class="tags t-cñ t-ûnet t-file-upload t-google-drive-api">
     @foreach (var item in Model)
     {
-        <span>
-            @Html.ActionLink(item.Tag_Name, "Index", new { searchString = item.Tag_Name })
-        </span>
+        @Html.ActionLink(@item.Tag_Name, "Index", new { searchString = item.Tag_Name }, new { @class = "post-tag", @title = item.Tag_Name, @rel = "tag" })
     }
-
 </div>
+@*<div class="tags t-cñ t-ûnet t-file-upload t-google-drive-api">
+        <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">
+            c#
+        </a>
+        <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">
+        .net
+        </a>
+        <a href="/questions/tagged/file-upload" class="post-tag" title="show questions tagged 'file-upload'" rel="tag">
+        file-upload
+        </a>
+    </div>*@
