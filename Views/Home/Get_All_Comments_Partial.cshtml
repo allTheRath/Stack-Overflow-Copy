@@ -1,0 +1,48 @@
+﻿@model IEnumerable<QA_Project.Models.User_Post>
+
+@{
+    Layout = null;
+}
+
+<!-- Reference css for stack overflow view..-->
+<link rel="stylesheet" type="text/css" href="~/Content/shared.css">
+<link rel="stylesheet" type="text/css" href="~/Content/primary.css">
+<link rel="stylesheet" type="text/css" href="~/Content/secondary.css">
+<link rel="stylesheet" type="text/css" href="~/Content/clc.min.css">
+
+<ul class="comments-list js-comments-list" data-remaining-comments-count="0" data-canpost="false"
+    data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+    @foreach (var item in Model)
+    {
+
+        <!-- COmments here-->
+        <li id="comment-103992640" class="comment js-comment " data-comment-id="103992640">
+            <div class="js-comment-actions comment-actions">
+                <div class="comment-score js-comment-edit-hide">
+                </div>
+            </div>
+            <div class="comment-text js-comment-text-and-form">
+                <div class="comment-body js-comment-edit-hide">
+
+                    <span class="comment-copy">
+
+                        @Html.DisplayFor(modelItem => item.Discription)
+                    </span>
+
+                    –&nbsp;<a href="/users/12211588/raouf-bessghaier" title="1 reputation"
+                              class="comment-user owner">                @Html.DisplayFor(modelItem => item.Poster.Email)</a>
+                            <span class="comment-date" dir="ltr">
+                                <a class="comment-link"
+                                   href="#comment103992640_58860454">
+                                    <span title="2019-11-14 15:56:18Z"
+                                          class="relativetime-clean">
+                                        @Html.DisplayFor(modelItem => item.PostedOn)
+                                    </span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            }
+</ul>

@@ -32,13 +32,19 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    @RenderBody()
+    <hr />
+    <footer>
+        <div style="margin:auto; text-align:center;-webkit-tap-highlight-color: transparent;
+    color: #4c4c4c;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.58;
+    letter-spacing: .2px;
+    word-spacing: 1.3px;
+    box-sizing: border-box;
+    margin: 0 0 15px;">&copy; @DateTime.Now.Year - QA-Application</div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -13,18 +13,19 @@
 
 @*<h2>QAs</h2>
 
-<p>
-    @Html.ActionLink("Ask Question", "Create_Question")
-</p>
-@using (Html.BeginForm("Index", "Home", FormMethod.Get))
-{
     <p>
-        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
+        @Html.ActionLink("Ask Question", "Create_Question")
     </p>
-}*@
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        <p>
+            Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }*@
 
-<div id="content" class="snippet-hidden">
+<div id="content" class="snippet-hidden" style="
+    padding-bottom: 0px;">
     <div id="mainbar">
         <div class="grid">
             <div class="grid fl1 mb24">
@@ -58,35 +59,35 @@
             @foreach (var item in Model)
             {
                 @*<div class="question-box">
-                <span>
-                    @Html.DisplayFor(modelItem => item.Title)
-                    @if (item.Acceptance_Of_Post == true)
-                    {
-                        <span>Accepeted</span>
-                    }
-                </span>
-                <div>
-                    @Html.DisplayFor(modelItem => item.Post_Type)
-                </div>
-                <p>
-                    @Html.DisplayFor(modelItem => item.Discription)
-                </p>
-                <span>
-                    @Html.DisplayFor(modelItem => item.PostedOn)
-                </span>
-                <div>
-                    @{
-                        Html.RenderAction("AllTags", new { post_id = item.Id });
-                    }
-                </div>
-                <div>
+                        <span>
+                            @Html.DisplayFor(modelItem => item.Title)
+                            @if (item.Acceptance_Of_Post == true)
+                            {
+                                <span>Accepeted</span>
+                            }
+                        </span>
+                        <div>
+                            @Html.DisplayFor(modelItem => item.Post_Type)
+                        </div>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.Discription)
+                        </p>
+                        <span>
+                            @Html.DisplayFor(modelItem => item.PostedOn)
+                        </span>
+                        <div>
+                            @{
+                                Html.RenderAction("AllTags", new { post_id = item.Id });
+                            }
+                        </div>
+                        <div>
 
-                </div>
-            </div>*@
+                        </div>
+                    </div>*@
 
 
 
-                <div class="question-summary" id="question-summary-58859698">
+                <div class="question-summary">
                     <div class="statscontainer">
                         <div class="stats">
                             <div class="vote">
@@ -105,19 +106,29 @@
                     </div>
                     <div class="summary">
                         <h3>
-                            <a href="#"
-                               class="question-hyperlink">@item.Title</a>
+                            @Html.ActionLink(item.Title, "AllFollowedPost", new { post_id = @item.Id }, new { @class = "question-hyperlink" })
                         </h3>
-                        <div class="excerpt">
+                        <div class="excerpt" style="-webkit-font-smoothing: antialiased;
+word-break: break-word;
+box-sizing: inherit;
+padding: 0;
+border: 0;
+vertical-align: baseline;
+color: #2E3C57;
+font-size: 1.2rem;
+font-family: soleil, sans-serif;
+font-weight: 400;
+line-height: 1.8;
+letter-spacing: -0.48px;
+margin: 12px 0;">
                             @item.Discription
-
                         </div>
                         @*<div class="tags t-cñ t-ûnet t-file-upload t-google-drive-api">
-                        <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a>
-                        <a href="/questions/tagged/file-upload" class="post-tag" title="show questions tagged 'file-upload'"
-                           rel="tag">file-upload</a> <a href="/questions/tagged/google-drive-api" class="post-tag"
-                                                        title="show questions tagged 'google-drive-api'" rel="tag">google-drive-api</a>
-                    </div>*@
+                                <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a>
+                                <a href="/questions/tagged/file-upload" class="post-tag" title="show questions tagged 'file-upload'"
+                                   rel="tag">file-upload</a> <a href="/questions/tagged/google-drive-api" class="post-tag"
+                                                                title="show questions tagged 'google-drive-api'" rel="tag">google-drive-api</a>
+                            </div>*@
 
 
                         @{
@@ -146,16 +157,31 @@
 
             }
 
-            <div>
-                <br />
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
-            </div>
-
         </div>
     </div>
 
 
 
 </div>
+<span class="left-page" style="
+    padding-right: 0px;
+    margin: 0 auto;
+">
+    <br />
+    <span style="display: flex; flex-direction: row; flex-wrap: nowrap;">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
+        <span style="padding: 30px 200px;
+    -webkit-tap-highlight-color: transparent;
+    color: #4c4c4c;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.58;
+    letter-spacing: .2px;
+    word-spacing: 1.3px;
+    box-sizing: border-box;
+    margin: 0 0 15px;
+">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        </span>
+    </span>
+</span>

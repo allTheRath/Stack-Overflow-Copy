@@ -97,9 +97,33 @@ namespace QA_Project.Controllers
             {
                 int postid = Convert.ToInt32(post_id);
                 All_Followed_Posts.AddRange(Application_Business_Logic.GetAllFollowedPostByPostId(postid));
+                ViewBag.QuestionId = postid;
+            }
+            return View(All_Followed_Posts);
+        }
+
+        public ActionResult Single_Post_Partial(int? post_id)
+        {
+            User_Post question = new User_Post();
+            if (post_id != null)
+            {
+                int postid = Convert.ToInt32(post_id);
+                question = Application_Business_Logic.GetPostById(postid);
+            }
+            return View(question);
+        }
+
+        public ActionResult Get_All_Comments_Partial(int? post_id)
+        {
+            List<User_Post> AllComments = new List<User_Post>();
+            User_Post post = new User_Post();
+            if (post_id != null)
+            {
+                int postid = Convert.ToInt32(post_id);
+                AllComments.AddRange(Application_Business_Logic.GetAllFollowedCommentByPostId(postid));
             }
 
-            return View(All_Followed_Posts);
+            return View(AllComments);
         }
 
         public ActionResult About()
@@ -112,25 +136,25 @@ namespace QA_Project.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-            //ApplicationDbContext context = new ApplicationDbContext();
-            //var allFollowed = context.Followed_Posts.ToList();
-            //foreach (var f in allFollowed)
-            //{
-            //    if (f.Followed_Post_Id == 0)
-            //    {
-            //        context.Followed_Posts.Remove(f);
-            //        context.SaveChanges();
-            //    }
-            //}
-            //Seeding seeding = new Seeding();
-            ////  This method will be called after migrating to the latest version.
-            //var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            ApplicationDbContext context = new ApplicationDbContext();
+            var allFollowed = context.Followed_Posts.ToList();
+            foreach (var f in allFollowed)
+            {
+                if (f.Followed_Post_Id == 0)
+                {
+                    context.Followed_Posts.Remove(f);
+                    context.SaveChanges();
+                }
+            }
+            Seeding seeding = new Seeding();
+            //  This method will be called after migrating to the latest version.
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            //// Seeding user accounts.
-            ////seeding.SeedUserAccounts(UserManager, context);
+            // Seeding user accounts.
+            seeding.SeedUserAccounts(UserManager, context);
 
-            ////Seeding questions and answers with relationship with users. 
-            //seeding.SeedDatabaseWithData(context);
+            //Seeding questions and answers with relationship with users. 
+            seeding.SeedDatabaseWithData(context);
 
 
             return View();

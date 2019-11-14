@@ -19,6 +19,8 @@ namespace QA_Project.Models
         List<User_Post> GetAllPostsContainingString(string searchString);
         List<Tag> GetAllTagsForPostId(int postId);
         List<User_Post> GetAllFollowedPostByPostId(int postId);
+        List<User_Post> GetAllFollowedCommentByPostId(int postId);
+        User_Post GetPostById(int postId);
     }
 
     // All database accessible methods here.
@@ -102,9 +104,33 @@ namespace QA_Project.Models
             foreach (var followed_post_id in fPostIds)
             {
                 User_Post user_Post = db.All_Posts.Find(followed_post_id);
-                user_Posts.Add(user_Post);
+                if(user_Post.Post_Type == Post_Type.Answer)
+                {
+                    user_Posts.Add(user_Post);
+                }
             }
             return user_Posts;
+        }
+
+        public List<User_Post> GetAllFollowedCommentByPostId(int postId)
+        {
+            List<User_Post> user_Posts = new List<User_Post>();
+            var followed_post_ids = db.Followed_Posts.Where(x => x.Main_Post_Id == postId).ToList();
+            var fPostIds = followed_post_ids.OrderByDescending(x => x.Order).Select(x => x.Followed_Post_Id).ToList();
+            foreach (var followed_post_id in fPostIds)
+            {
+                User_Post user_Post = db.All_Posts.Find(followed_post_id);
+                if (user_Post.Post_Type == Post_Type.Comment)
+                {
+                    user_Posts.Add(user_Post);
+                }
+            }
+            return user_Posts;
+        }
+
+            public User_Post GetPostById(int postId)
+        {
+            return db.All_Posts.Find(postId);
         }
     }
 

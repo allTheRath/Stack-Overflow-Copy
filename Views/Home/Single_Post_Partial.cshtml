@@ -1,0 +1,83 @@
+﻿@model QA_Project.Models.User_Post
+@{
+    Layout = null;
+}
+    <div id="content" class="snippet-hidden" style="
+    padding-left: 0px;
+    border-left-width: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+">
+        <div id="mainbar">
+            <div class="grid">
+                <div class="grid fl1 mb24">
+                    <h1 class="grid--cell fs-headline1 mb0">
+                        @Html.ActionLink(Model.Title, "AllFollowedPost", new { post_id = @Model.Id }, new { @class = "question-hyperlink" })
+                    </h1>
+                </div>
+
+            </div>
+
+            <style>
+                .everyoneloves__top-leaderboard:empty,
+                .everyoneloves__mid-leaderboard:empty,
+                .everyoneloves__bot-mid-leaderboard:empty {
+                    margin-bottom: 0;
+                }
+            </style>
+
+            <div class="question-summary">
+                <div class="statscontainer">
+                    <div class="stats">
+                        <div class="vote">
+                            <div class="votes">
+                                <span class="vote-count-post "><strong>@Model.Voted_Count</strong></span>
+                                <div class="viewcount">votes</div>
+                            </div>
+                        </div>
+                        <div class="status unanswered">
+                            <strong>@Model.Answered_Count</strong>answers
+                        </div>
+                    </div>
+                    <div class="views " title="3 views">
+                        3 views
+                    </div>
+                </div>
+                <div class="summary">
+
+                    <div class="excerpt">
+                        @Model.Discription
+                    </div>
+
+                    @{
+                        Html.RenderAction("AllTags", new { post_id = Model.Id });
+                    }
+
+
+                    <div class="started fr">
+                        <div class="user-info user-hover">
+                            <div class="user-action-time">
+                                asked <span title="2019-11-14 14:56:16Z" class="relativetime">1 min ago</span>
+                            </div>
+                            <div class="user-gravatar32">
+                                <a href="#">
+                                    <div class="gravatar-wrapper-32">
+                                        <img src="https://www.gravatar.com/avatar/1861f9453d0aae6608c8520c1461ad16?s=32&amp;d=identicon&amp;r=PG"
+                                             alt="" width="32" height="32" class="bar-sm">
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="user-details">
+                                UDetails.. Html componnent
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+    </div>

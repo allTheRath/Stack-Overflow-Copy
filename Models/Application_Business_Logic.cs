@@ -58,5 +58,14 @@ namespace QA_Project.Models
             return this.dataAccess.GetAllFollowedPostByPostId(postId);
         }
 
+        public User_Post GetPostById(int postId)
+        {
+            return this.dataAccess.GetPostById(postId);
+        }
+
+        public List<User_Post> GetAllFollowedCommentByPostId(int postId)
+        {
+            return this.dataAccess.GetAllFollowedCommentByPostId(postId);
+        }
     }
 }
