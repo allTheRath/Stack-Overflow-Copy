@@ -16,30 +16,76 @@
     <p>
         @Html.ActionLink("Ask Question", "Create_Question")
     </p>
-    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+*@
+
+<div class="deleteANdRender">
+    @if (@ViewBag.CurrentFilter == null)
     {
-        <p>
-            Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search" />
-        </p>
-    }*@
+
+        Html.RenderAction("SearchGoogle", new { searchString = "winnipeg" });
+
+    }
+    else
+    {
+
+        Html.RenderAction("SearchGoogle", new { searchString = ViewBag.CurrentFilter as string });
+
+    }
+
+
+</div>
+<span class="enterLinks"></span>
+@*<script>
+    var google = document.querySelector(".onclikGooGle");
+    google.addEventListener('click', function (e) {
+        console.log(e.target.textContent);
+        var val = e.target.textContent;
+        var ele = document.querySelector(".enterLinks");
+        var link = document.createElement("a");
+        link.setAttribute("href", "/Home/SearchGoogle/searchString?=" + val);
+        ele.appendChild(link);
+        ele.click();
+    });
+</script>*@
+<script>
+    var google = document.querySelector(".onclikGooGle");
+    var allLinks = document.querySelectorAll(".onclikGooGle a");
+    for (var i = 0; i < allLinks.length; i++) {
+        allLinks[i].setAttribute("href", "#");
+        console.log("ok");
+    }
+</script>
+
 
 <div id="content" class="snippet-hidden" style="
-    padding-bottom: 0px;">
+    padding-bottom: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+    margin-right: 0px;
+    overflow: hidden;
+    position: absolute;
+    width: max-content;
+    padding-top:120px;
+    ">
     <div id="mainbar">
         <div class="grid">
             <div class="grid fl1 mb24">
-                <h1 class="grid--cell fs-headline1 mb0">
-                    Title tag search here..
-                </h1>
+                <h6>
+                    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+                    {
+                        <p>
+                            Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                            <input type="submit" value="Search" />
+                        </p>
+                    }
+                </h6>
             </div>
 
             <div class="ml12 aside-cta grid--cell print:d-none">
-
                 <a href="#" class="ws-nowrap s-btn s-btn__primary">
                     Ask Question Link
                 </a>
-
+                <span>                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))</span>
             </div>
         </div>
 
@@ -58,35 +104,6 @@
 
             @foreach (var item in Model)
             {
-                @*<div class="question-box">
-                        <span>
-                            @Html.DisplayFor(modelItem => item.Title)
-                            @if (item.Acceptance_Of_Post == true)
-                            {
-                                <span>Accepeted</span>
-                            }
-                        </span>
-                        <div>
-                            @Html.DisplayFor(modelItem => item.Post_Type)
-                        </div>
-                        <p>
-                            @Html.DisplayFor(modelItem => item.Discription)
-                        </p>
-                        <span>
-                            @Html.DisplayFor(modelItem => item.PostedOn)
-                        </span>
-                        <div>
-                            @{
-                                Html.RenderAction("AllTags", new { post_id = item.Id });
-                            }
-                        </div>
-                        <div>
-
-                        </div>
-                    </div>*@
-
-
-
                 <div class="question-summary">
                     <div class="statscontainer">
                         <div class="stats">
@@ -160,8 +177,6 @@ margin: 12px 0;">
         </div>
     </div>
 
-
-
 </div>
 <span class="left-page" style="
     padding-right: 0px;
@@ -185,3 +200,4 @@ margin: 12px 0;">
         </span>
     </span>
 </span>
+

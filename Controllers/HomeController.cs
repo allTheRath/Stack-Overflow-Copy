@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using PagedList;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Net;
+using System.IO;
 
 namespace QA_Project.Controllers
 {
@@ -77,6 +79,7 @@ namespace QA_Project.Controllers
             return View(questions.ToPagedList(pageNumber, pageSize));
         }
 
+
         public ActionResult AllTags(int? post_id)
         {
             List<Tag> AllTags = new List<Tag>();
@@ -126,6 +129,49 @@ namespace QA_Project.Controllers
             return View(AllComments);
         }
 
+
+        public class HtmlPage
+        {
+            public string data { get; set; }
+        }
+        public ActionResult SearchGoogle(string searchString)
+        {
+            if(searchString == "")
+            {
+                searchString = "news";
+            }
+            WebRequest request = WebRequest.Create("https://www.google.com/search?&q="+searchString);
+            // If required by the server, set the credentials.
+            request.Credentials = CredentialCache.DefaultCredentials;
+            // Get the response.
+            request.ContentType = "application/x-www-form-urlencoded";
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            // Display the status.
+            Console.WriteLine(response.StatusDescription);
+            // Get the stream containing content returned by the server.
+            Stream dataStream = response.GetResponseStream();
+            // Open the stream using a StreamReader for easy access.
+            StreamReader reader = new StreamReader(dataStream);
+            // Read the content.
+            string responseFromServer = reader.ReadToEnd();
+            // Display the content.
+            HtmlPage htmlPage = new HtmlPage();
+            htmlPage.data = responseFromServer;
+            // Cleanup the streams and the response.
+            reader.Close();
+            dataStream.Close();
+            response.Close();
+
+            return View(htmlPage);
+        }
+
+
+        //public ActionResult url(dynamic q)
+        //{
+        //    string j = Convert.ToString(q);
+        //    return RedirectToAction("SearchGoogle", new { searchString  = j});
+        //}
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
