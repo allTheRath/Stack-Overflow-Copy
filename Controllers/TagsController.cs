@@ -35,43 +35,43 @@ namespace QA_Project.Controllers
         //    return View(tag);
         //}
 
-        // GET: Tags/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //// GET: Tags/Create
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Tags/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Tag_Name")] Tag tag)
-        {
-            if (ModelState.IsValid)
-            {
-                db.All_Tags.Add(tag);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //// POST: Tags/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Id,Tag_Name")] Tag tag)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.All_Tags.Add(tag);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            return View(tag);
-        }
+        //    return View(tag);
+        //}
 
-        // GET: Tags/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Tag tag = db.All_Tags.Find(id);
-            if (tag == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tag);
-        }
+        //// GET: Tags/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Tag tag = db.All_Tags.Find(id);
+        //    if (tag == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(tag);
+        //}
 
         // POST: Tags/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

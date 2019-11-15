@@ -290,6 +290,7 @@
     <Content Include="Views\Home\Single_Post_Partial.cshtml" />
     <Content Include="Views\Home\Get_All_Comments_Partial.cshtml" />
     <Content Include="Views\Home\SearchGoogle.cshtml" />
+    <Content Include="Views\User_Post\AddOrCreateTags.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

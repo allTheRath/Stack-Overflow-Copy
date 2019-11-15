@@ -11,12 +11,6 @@
     ViewBag.Title = "User_Post";
 }
 
-<h2>QAs</h2>
-
-<p>
-    @Html.ActionLink("Ask Question", "Create", "User_Post")
-</p>
-
 
 <div class="deleteANdRender">
     @if (@ViewBag.CurrentFilter == null)
@@ -78,13 +72,15 @@
                             <input type="submit" value="Search" />
                         </p>
                     }
+
+
                 </h6>
             </div>
 
             <div class="ml12 aside-cta grid--cell print:d-none">
-                <a href="#" class="ws-nowrap s-btn s-btn__primary">
-                    Ask Question Link
-                </a>
+                <p class="ws-nowrap s-btn s-btn__primary">
+                    @Html.ActionLink("Ask Question", "Create", "User_Post")
+                </p>
                 <span>                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))</span>
             </div>
         </div>
@@ -97,7 +93,15 @@
             }
         </style>
 
+        <style>
+            .att {
+                visibility: hidden;
+            }
 
+            .clickable:hover {
+                background-color: #cfdfeb;
+            }
+        </style>
 
         <div id="questions" class="flush-left">
 
@@ -140,14 +144,21 @@ letter-spacing: -0.48px;
 margin: 12px 0;">
                             @item.Discription
 
-                            @Html.ActionLink("Edit", "Edit", "User_Post", new { id = @item.Id }, new { @class = "att" })
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm clickable" width="14" height="14" viewBox="0 0 14 14">
+                                <path d="M11.1 1.71l1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0zM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88z">
+                                </path>
+
+                            </svg>
+                            @Html.ActionLink("edit", "Edit", "User_Post", new { id = @item.Id }, new { @class = "att" })
+
+
                         </div>
                         @*<div class="tags t-cñ t-ûnet t-file-upload t-google-drive-api">
-                                <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a>
-                                <a href="/questions/tagged/file-upload" class="post-tag" title="show questions tagged 'file-upload'"
-                                   rel="tag">file-upload</a> <a href="/questions/tagged/google-drive-api" class="post-tag"
-                                                                title="show questions tagged 'google-drive-api'" rel="tag">google-drive-api</a>
-                            </div>*@
+                            <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a>
+                            <a href="/questions/tagged/file-upload" class="post-tag" title="show questions tagged 'file-upload'"
+                               rel="tag">file-upload</a> <a href="/questions/tagged/google-drive-api" class="post-tag"
+                                                            title="show questions tagged 'google-drive-api'" rel="tag">google-drive-api</a>
+                        </div>*@
 
 
                         @{
@@ -176,7 +187,30 @@ margin: 12px 0;">
                 </div>
 
             }
+            <script>
+                var main = document.querySelector(".snippet-hidden");
+                main.addEventListener('click', function (e) {
+                    if (e.target.nodeName == "svg") {
+                        console.log(e.target.nodeName);
+                        console.log();
+                        var a = e.target.nextElementSibling;
+                        if (a) {
+                            window.open(a.getAttribute('href'), "_self");
+                        }
 
+                    } else if (e.target.nodeName == "path") {
+                        console.log(e.target.nodeName);
+
+                        console.log(e.target.nodeName);
+                        console.log();
+                        var a = e.target.parentNode.nextElementSibling;
+                        if (a) {
+                            window.open(a.getAttribute('href'), "_self");
+                        }
+
+                    }
+                });
+            </script>
         </div>
     </div>
 

@@ -12,6 +12,10 @@ namespace QA_Project.Models
         void Add_Post(User_Post post);
         void Add_Tag(Tag tag);
         void Add_Post_Tag(Post_Tag post_Tag);
+        void Add_FollowedPost(Followed_Post followed_Post);
+        void Add_User_Vote_Of_Post(User_Vote_Of_Post user_Vote_Of_Post);
+        void Upvote(int post_id, string userid);
+        void Downvote(int post_id, string userid);
 
         // Geting data from database methods below........
         List<User_Post> GetAllPosts();
@@ -49,6 +53,17 @@ namespace QA_Project.Models
             db.SaveChanges();
         }
 
+        public void Add_FollowedPost(Followed_Post followed_Post)
+        {
+            db.Followed_Posts.Add(followed_Post);
+            db.SaveChanges();
+        }
+
+        public void Add_User_Vote_Of_Post(User_Vote_Of_Post user_Vote_Of_Post)
+        {
+            db.User_Vote_Of_Posts.Add(user_Vote_Of_Post);
+            db.SaveChanges();
+        }
 
         public List<User_Post> GetAllPosts()
         {
@@ -90,7 +105,11 @@ namespace QA_Project.Models
             foreach (var tagId in allIds)
             {
                 Tag tag = db.All_Tags.Find(tagId);
-                AllTags.Add(tag);
+                if(tag.Tag_Name != null && tag.Tag_Name != "")
+                {
+                    AllTags.Add(tag);
+
+                }
             }
             return AllTags;
         }
@@ -104,7 +123,7 @@ namespace QA_Project.Models
             foreach (var followed_post_id in fPostIds)
             {
                 User_Post user_Post = db.All_Posts.Find(followed_post_id);
-                if(user_Post.Post_Type == Post_Type.Answer)
+                if (user_Post.Post_Type == Post_Type.Answer)
                 {
                     user_Posts.Add(user_Post);
                 }
@@ -128,9 +147,58 @@ namespace QA_Project.Models
             return user_Posts.OrderByDescending(x => x.PostedOn).ToList();
         }
 
-            public User_Post GetPostById(int postId)
+        public User_Post GetPostById(int postId)
         {
             return db.All_Posts.Find(postId);
+        }
+
+        public void Upvote(int post_id, string userid)
+        {
+            var post = db.All_Posts.Find(post_id);
+            var exist = db.User_Vote_Of_Posts.Where(x => x.Post_Id == post_id && x.Voter_Id == userid).FirstOrDefault();
+            if (exist != null)
+            {
+                if (exist.Voted_Type == Voted_Type.UpVoted)
+                {
+                    return;
+                }
+
+                db.User_Vote_Of_Posts.Remove(exist);
+                db.SaveChanges();
+                post.Voted_Count -= 1;
+            }
+
+            User_Vote_Of_Post user_Vote_Of_Post = new User_Vote_Of_Post();
+            user_Vote_Of_Post.Voter_Id = userid;
+            user_Vote_Of_Post.Voted_Type = Voted_Type.UpVoted;
+            user_Vote_Of_Post.Post_Id = post_id;
+            db.User_Vote_Of_Posts.Add(user_Vote_Of_Post);
+            post.Voted_Count += 1;
+            db.SaveChanges();
+
+        }
+
+        public void Downvote(int post_id, string userid)
+        {
+            var post = db.All_Posts.Find(post_id);
+            var exist = db.User_Vote_Of_Posts.Where(x => x.Post_Id == post_id && x.Voter_Id == userid).FirstOrDefault();
+            if (exist != null)
+            {
+                if (exist.Voted_Type == Voted_Type.DownVoted)
+                {
+                    return;
+                }
+
+                db.User_Vote_Of_Posts.Remove(exist);
+                db.SaveChanges();
+            }
+
+            User_Vote_Of_Post user_Vote_Of_Post = new User_Vote_Of_Post();
+            user_Vote_Of_Post.Voter_Id = userid;
+            user_Vote_Of_Post.Voted_Type = Voted_Type.DownVoted;
+            user_Vote_Of_Post.Post_Id = post_id;
+            db.User_Vote_Of_Posts.Add(user_Vote_Of_Post);
+            db.SaveChanges();
         }
     }
 

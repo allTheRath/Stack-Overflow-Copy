@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace QA_Project.Models
 {
@@ -9,15 +10,15 @@ namespace QA_Project.Models
     {
         public int Id { get; set; }
         // unique id of post.
-        
-        public DateTime PostedOn { get; set; }    
-        
+
+        public DateTime PostedOn { get; set; }
+
         // a string representing a associative tag of post. 
         public string Title { get; set; }
-        
+
         // a string representing a post.. either an answer, or a question, or comment.
         public string Discription { get; set; }
-        
+
         //an int count of votes either upvote or down vote
         public int Voted_Count { get; set; }
 
@@ -91,6 +92,20 @@ namespace QA_Project.Models
         UpVoted,
         DownVoted
     }
-    
+
     // All required viewmodels here..........
+    public class AddTagsViewmodel
+    {
+        public List<Tag> Tags { get; set; }
+        public List<int> SelectedTagIds { get; set; }
+        public List<Tag> AlreadySelectedTags { get; set; }
+        public int PostId { get; set; }
+        public DateTime PostedOn { get; set; }
+        public string Title { get; set; }
+        public string Discription { get; set; }
+        public int Voted_Count { get; set; }
+        public int Answered_Count { get; set; }
+    }
+
 }
+

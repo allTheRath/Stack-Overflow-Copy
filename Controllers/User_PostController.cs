@@ -59,11 +59,111 @@ namespace QA_Project.Controllers
             {
                 db.All_Posts.Add(user_Post);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                if (user_Post.Post_Type == Post_Type.Question)
+                {
+                    User_Post post = db.All_Posts.Where(x => x.Discription == user_Post.Discription).FirstOrDefault();
+                    if (post != null)
+                    {
+                        return RedirectToAction("AddOrCreateTags", new { postId = post.Id });
+                    }
+                    else
+                    {
+                        // an error page link here..
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+
+                }
             }
 
             return View(user_Post);
         }
+
+
+        public ActionResult AddOrCreateTags(int? postId)
+        {
+            if (postId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            User_Post question = db.All_Posts.Find(postId);
+            var model = new AddTagsViewmodel();
+            model.SelectedTagIds = new List<int>();
+            model.PostId = question.Id;
+            model.PostedOn = question.PostedOn;
+            model.Title = question.Title;
+            model.Discription = question.Discription;
+            model.Answered_Count = question.Answered_Count;
+            model.Voted_Count = question.Voted_Count;
+            var tagids = db.Tag_Of_Post.ToList().Where(x => x.Post_Id == question.Id).ToList().Select(x => x.TagId).ToList();
+            model.Tags = db.All_Tags.ToList().Where(x => (!tagids.Contains(x.Id))).ToList();
+
+
+            if (tagids.Count() > 0)
+            {
+                model.AlreadySelectedTags = new List<Tag>();
+            }
+            else
+            {
+                List<Tag> alreadySelectedTags = new List<Tag>();
+                tagids.ForEach(x =>
+                {
+                    alreadySelectedTags.Add(db.All_Tags.Find(x));
+                });
+
+                model.AlreadySelectedTags = alreadySelectedTags;
+            }
+
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateTag(int? PostId, string tag_name)
+        {
+            var post = db.All_Posts.Find(PostId);
+            if (post != null && tag_name != "")
+            {
+                Tag tag = new Tag();
+                tag.Tag_Name = tag_name;
+                db.All_Tags.Add(tag);
+                db.SaveChanges();
+                Post_Tag post_Tag = new Post_Tag();
+                Tag added = db.All_Tags.Where(x => x.Tag_Name == tag_name).FirstOrDefault();
+                post_Tag.Post_Id = post.Id;
+                post_Tag.TagId = added.Id;
+                db.Tag_Of_Post.Add(post_Tag);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("AddOrCreateTags", new { postId = post.Id });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTags(int? PostId, List<int> SelectedTagIds)
+        {
+            var post = db.All_Posts.Find(PostId);
+            if (post != null)
+            {
+                Tag t = db.All_Tags.Find(SelectedTagIds[0]);
+                Post_Tag post_Tag = new Post_Tag();
+                post_Tag.Post_Id = post.Id;
+                post_Tag.TagId = t.Id;
+                db.Tag_Of_Post.Add(post_Tag);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("AddOrCreateTags", new { postId = post.Id });
+        }
+
+
 
         // GET: User_Post/Edit/5
         public ActionResult Edit(int? id)
@@ -88,18 +188,38 @@ namespace QA_Project.Controllers
         public ActionResult Edit([Bind(Include = "Id,Title,Discription,Acceptance_Of_Post")] User_Post user_Post)
         {
             User_Post user_Post_Existing = db.All_Posts.Find(user_Post.Id);
-            user_Post.PostedOn = DateTime.Now;
-            user_Post.Voted_Count = user_Post_Existing.Voted_Count;
-            user_Post.Post_Type = user_Post.Post_Type;
-            user_Post.Answered_Count = user_Post_Existing.Answered_Count;
-            
-            if (ModelState.IsValid)
+            user_Post_Existing.Title = user_Post.Title;
+            user_Post_Existing.Discription = user_Post.Discription;
+            if (User.Identity.IsAuthenticated)
             {
-                db.Entry(user_Post).State = EntityState.Modified;
+                // if user is the actual creator of this question then he can accept the question. as question is been answered.
+                if (User.Identity.GetUserId() == user_Post_Existing.Associated_User_Id)
+                {
+                    user_Post_Existing.Acceptance_Of_Post = user_Post.Acceptance_Of_Post;
+                    
+                }
                 db.SaveChanges();
-                return RedirectToAction("Index","Home");
             }
-            return View(user_Post);
+
+
+            if (user_Post.Post_Type == Post_Type.Question)
+            {
+                User_Post post = db.All_Posts.Where(x => x.Discription == user_Post.Discription).FirstOrDefault();
+                if (post != null)
+                {
+                    return RedirectToAction("AddOrCreateTags", new { postId = post.Id });
+                }
+                else
+                {
+                    // an error page link here..
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
         }
 
         // GET: User_Post/Delete/5
@@ -125,7 +245,7 @@ namespace QA_Project.Controllers
             User_Post user_Post = db.All_Posts.Find(id);
             db.All_Posts.Remove(user_Post);
             db.SaveChanges();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

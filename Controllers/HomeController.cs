@@ -96,6 +96,7 @@ namespace QA_Project.Controllers
 
         public ActionResult AllFollowedPost(int? post_id)
         {
+            //increment main post counter of views...
             List<User_Post> All_Followed_Posts = new List<User_Post>();
             if (post_id != null)
             {
@@ -103,10 +104,11 @@ namespace QA_Project.Controllers
                 All_Followed_Posts.AddRange(Application_Business_Logic.GetAllFollowedPostByPostId(postid));
                 ViewBag.QuestionId = postid;
             }
-            if(All_Followed_Posts.Count() == 0)
+            if (All_Followed_Posts.Count() == 0)
             {
                 ViewBag.NoOfPost = 0;
-            } else
+            }
+            else
             {
                 ViewBag.NoOfPost = All_Followed_Posts.Count();
             }
@@ -145,7 +147,7 @@ namespace QA_Project.Controllers
         }
         public ActionResult SearchGoogle(string searchString)
         {
-            if(searchString == "")
+            if (searchString == "")
             {
                 searchString = "news";
             }
@@ -174,13 +176,54 @@ namespace QA_Project.Controllers
                 reader.Close();
                 dataStream.Close();
                 response.Close();
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 htmlPage.data = "";
             }
             return View(htmlPage);
         }
 
+
+
+        public ActionResult Upvote(int? post_id)
+        {
+            // if user has not voted then add a upvote to this post for user.
+            if (post_id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            int postID = Convert.ToInt32(post_id);
+
+            if (User.Identity.IsAuthenticated)
+            {
+                string uid = User.Identity.GetUserId();
+                Application_Business_Logic.UpVote(postID, uid);
+
+            }
+
+            return RedirectToAction("AllFollowedPost", new { post_id = postID });
+        }
+
+        public ActionResult Downvote(int? post_id)
+        {
+            if (post_id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            int postID = Convert.ToInt32(post_id);
+
+            if (User.Identity.IsAuthenticated)
+            {
+                string uid = User.Identity.GetUserId();
+                Application_Business_Logic.DownVote(postID,uid);
+
+            }
+
+
+            // if user has voted then add a downvote to this post for user. and delete upvoted one.
+            return RedirectToAction("AllFollowedPost", new { post_id = postID });
+        }
 
         //public ActionResult url(dynamic q)
         //{
@@ -197,25 +240,25 @@ namespace QA_Project.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-            ApplicationDbContext context = new ApplicationDbContext();
-            var allFollowed = context.Followed_Posts.ToList();
-            foreach (var f in allFollowed)
-            {
-                if (f.Followed_Post_Id == 0)
-                {
-                    context.Followed_Posts.Remove(f);
-                    context.SaveChanges();
-                }
-            }
-            Seeding seeding = new Seeding();
-            //  This method will be called after migrating to the latest version.
-            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            //ApplicationDbContext context = new ApplicationDbContext();
+            //var allFollowed = context.Followed_Posts.ToList();
+            //foreach (var f in allFollowed)
+            //{
+            //    if (f.Followed_Post_Id == 0)
+            //    {
+            //        context.Followed_Posts.Remove(f);
+            //        context.SaveChanges();
+            //    }
+            //}
+            //Seeding seeding = new Seeding();
+            ////  This method will be called after migrating to the latest version.
+            //var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            // Seeding user accounts.
-            seeding.SeedUserAccounts(UserManager, context);
+            //// Seeding user accounts.
+            //seeding.SeedUserAccounts(UserManager, context);
 
-            //Seeding questions and answers with relationship with users. 
-            seeding.SeedDatabaseWithData(context);
+            ////Seeding questions and answers with relationship with users. 
+            //seeding.SeedDatabaseWithData(context);
 
 
             return View();

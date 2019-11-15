@@ -67,5 +67,17 @@ namespace QA_Project.Models
         {
             return this.dataAccess.GetAllFollowedCommentByPostId(postId);
         }
+
+
+        public void UpVote(int postID, string uid)
+        {
+
+            this.dataAccess.Upvote(postID, uid);
+        }
+
+        public void DownVote(int postID, string uid)
+        {
+            this.dataAccess.Downvote(postID, uid);
+        }
     }
 }
