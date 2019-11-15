@@ -74,6 +74,7 @@ namespace QA_Project.Controllers
                 questions.AddRange(Application_Business_Logic.GetAllPosts());
             }
 
+
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(questions.ToPagedList(pageNumber, pageSize));
@@ -101,6 +102,13 @@ namespace QA_Project.Controllers
                 int postid = Convert.ToInt32(post_id);
                 All_Followed_Posts.AddRange(Application_Business_Logic.GetAllFollowedPostByPostId(postid));
                 ViewBag.QuestionId = postid;
+            }
+            if(All_Followed_Posts.Count() == 0)
+            {
+                ViewBag.NoOfPost = 0;
+            } else
+            {
+                ViewBag.NoOfPost = All_Followed_Posts.Count();
             }
             return View(All_Followed_Posts);
         }
@@ -130,6 +138,7 @@ namespace QA_Project.Controllers
         }
 
 
+
         public class HtmlPage
         {
             public string data { get; set; }
@@ -140,29 +149,35 @@ namespace QA_Project.Controllers
             {
                 searchString = "news";
             }
-            WebRequest request = WebRequest.Create("https://www.google.com/search?&q="+searchString);
-            // If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials;
-            // Get the response.
-            request.ContentType = "application/x-www-form-urlencoded";
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            // Display the status.
-            Console.WriteLine(response.StatusDescription);
-            // Get the stream containing content returned by the server.
-            Stream dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.
-            string responseFromServer = reader.ReadToEnd();
-            // Display the content.
             HtmlPage htmlPage = new HtmlPage();
-            htmlPage.data = responseFromServer;
-            // Cleanup the streams and the response.
-            reader.Close();
-            dataStream.Close();
-            response.Close();
 
+            try
+            {
+                WebRequest request = WebRequest.Create("https://www.google.com/search?&q=" + searchString);
+                // If required by the server, set the credentials.
+                request.Credentials = CredentialCache.DefaultCredentials;
+                // Get the response.
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                // Display the status.
+                Console.WriteLine(response.StatusDescription);
+                // Get the stream containing content returned by the server.
+                Stream dataStream = response.GetResponseStream();
+                // Open the stream using a StreamReader for easy access.
+                StreamReader reader = new StreamReader(dataStream);
+                // Read the content.
+                string responseFromServer = reader.ReadToEnd();
+                // Display the content.
+                htmlPage.data = responseFromServer;
+                // Cleanup the streams and the response.
+                reader.Close();
+                dataStream.Close();
+                response.Close();
+            }catch(Exception)
+            {
+                htmlPage.data = "";
+            }
             return View(htmlPage);
         }
 

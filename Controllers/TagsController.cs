@@ -14,26 +14,26 @@ namespace QA_Project.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Tags
-        public ActionResult Index()
-        {
-            return View(db.All_Tags.ToList());
-        }
+        //// GET: Tags
+        //public ActionResult Index()
+        //{
+        //    return View(db.All_Tags.ToList());
+        //}
 
-        // GET: Tags/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Tag tag = db.All_Tags.Find(id);
-            if (tag == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tag);
-        }
+        //// GET: Tags/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Tag tag = db.All_Tags.Find(id);
+        //    if (tag == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(tag);
+        //}
 
         // GET: Tags/Create
         public ActionResult Create()

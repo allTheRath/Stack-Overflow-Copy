@@ -21573,7 +21573,7 @@ body > .container .container--inner {
 }
 
 #mainbar, .mainbar {
-    width: calc(100% - 300px - 24px)
+    /*width: calc(100% - 300px - 24px)*/
 }
 
     #mainbar.ask-mainbar, .mainbar.ask-mainbar {

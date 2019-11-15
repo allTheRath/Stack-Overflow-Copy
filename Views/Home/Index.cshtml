@@ -11,12 +11,12 @@
     ViewBag.Title = "User_Post";
 }
 
-@*<h2>QAs</h2>
+<h2>QAs</h2>
 
-    <p>
-        @Html.ActionLink("Ask Question", "Create_Question")
-    </p>
-*@
+<p>
+    @Html.ActionLink("Ask Question", "Create", "User_Post")
+</p>
+
 
 <div class="deleteANdRender">
     @if (@ViewBag.CurrentFilter == null)
@@ -36,17 +36,17 @@
 </div>
 <span class="enterLinks"></span>
 @*<script>
-    var google = document.querySelector(".onclikGooGle");
-    google.addEventListener('click', function (e) {
-        console.log(e.target.textContent);
-        var val = e.target.textContent;
-        var ele = document.querySelector(".enterLinks");
-        var link = document.createElement("a");
-        link.setAttribute("href", "/Home/SearchGoogle/searchString?=" + val);
-        ele.appendChild(link);
-        ele.click();
-    });
-</script>*@
+        var google = document.querySelector(".onclikGooGle");
+        google.addEventListener('click', function (e) {
+            console.log(e.target.textContent);
+            var val = e.target.textContent;
+            var ele = document.querySelector(".enterLinks");
+            var link = document.createElement("a");
+            link.setAttribute("href", "/Home/SearchGoogle/searchString?=" + val);
+            ele.appendChild(link);
+            ele.click();
+        });
+    </script>*@
 <script>
     var google = document.querySelector(".onclikGooGle");
     var allLinks = document.querySelectorAll(".onclikGooGle a");
@@ -139,6 +139,8 @@ line-height: 1.8;
 letter-spacing: -0.48px;
 margin: 12px 0;">
                             @item.Discription
+
+                            @Html.ActionLink("Edit", "Edit", "User_Post", new { id = @item.Id }, new { @class = "att" })
                         </div>
                         @*<div class="tags t-cñ t-ûnet t-file-upload t-google-drive-api">
                                 <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a>
@@ -151,10 +153,11 @@ margin: 12px 0;">
                         @{
                             Html.RenderAction("AllTags", new { post_id = item.Id });
                         }
+
                         <div class="started fr">
                             <div class="user-info user-hover">
                                 <div class="user-action-time">
-                                    asked <span title="2019-11-14 14:56:16Z" class="relativetime">1 min ago</span>
+                                    asked <span title=@item.PostedOn class="relativetime">on @item.PostedOn.ToString("g")</span>
                                 </div>
                                 <div class="user-gravatar32">
                                     <a href="#">

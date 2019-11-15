@@ -52,7 +52,7 @@ namespace QA_Project.Models
 
         public List<User_Post> GetAllPosts()
         {
-            return db.All_Posts.Where(x => x.Post_Type == Post_Type.Question).ToList();
+            return db.All_Posts.Where(x => x.Post_Type == Post_Type.Question).ToList().OrderByDescending(x => x.PostedOn).ToList();
         }
 
         public List<User_Post> GetAllPostsByTag(int tag_id)
@@ -65,7 +65,7 @@ namespace QA_Project.Models
                 All_Post_ByTag_Id.Add(post);
             }
 
-            return All_Post_ByTag_Id;
+            return All_Post_ByTag_Id.OrderByDescending(x => x.PostedOn).ToList();
         }
 
         public List<User_Post> GetAllPostsContainingString(string searchString)
@@ -79,7 +79,7 @@ namespace QA_Project.Models
                 All_Post_ByTag_Id.AddRange(GetAllPostsByTag(tagid));
             }
 
-            return All_Post_ByTag_Id.Distinct().ToList();
+            return All_Post_ByTag_Id.Distinct().ToList().OrderByDescending(x => x.PostedOn).ToList();
         }
 
         public List<Tag> GetAllTagsForPostId(int postId)
@@ -109,7 +109,7 @@ namespace QA_Project.Models
                     user_Posts.Add(user_Post);
                 }
             }
-            return user_Posts;
+            return user_Posts.OrderByDescending(x => x.PostedOn).ToList();
         }
 
         public List<User_Post> GetAllFollowedCommentByPostId(int postId)
@@ -125,7 +125,7 @@ namespace QA_Project.Models
                     user_Posts.Add(user_Post);
                 }
             }
-            return user_Posts;
+            return user_Posts.OrderByDescending(x => x.PostedOn).ToList();
         }
 
             public User_Post GetPostById(int postId)
