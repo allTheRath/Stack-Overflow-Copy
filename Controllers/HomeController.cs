@@ -74,7 +74,6 @@ namespace QA_Project.Controllers
                 questions.AddRange(Application_Business_Logic.GetAllPosts());
             }
 
-
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(questions.ToPagedList(pageNumber, pageSize));
@@ -185,6 +184,46 @@ namespace QA_Project.Controllers
         }
 
 
+        public ActionResult UpvoteFromAllAns(int? post_id, int? mainId)
+        {
+            // if user has not voted then add a upvote to this post for user.
+            if (post_id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            int postID = Convert.ToInt32(post_id);
+            int mainid = Convert.ToInt32(mainId);
+            if (User.Identity.IsAuthenticated)
+            {
+                string uid = User.Identity.GetUserId();
+                Application_Business_Logic.UpVote(postID, uid);
+
+            }
+
+            return RedirectToAction("AllFollowedPost", new { post_id = mainId });
+        }
+
+        public ActionResult DownvoteFromAllAns(int? post_id, int? mainId)
+        {
+            if (post_id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            int postID = Convert.ToInt32(post_id);
+            int mainid = Convert.ToInt32(mainId);
+            if (User.Identity.IsAuthenticated)
+            {
+                string uid = User.Identity.GetUserId();
+                Application_Business_Logic.DownVote(postID, uid);
+
+            }
+
+
+            // if user has voted then add a downvote to this post for user. and delete upvoted one.
+            return RedirectToAction("AllFollowedPost", new { post_id = mainid });
+        }
+
+
 
         public ActionResult Upvote(int? post_id)
         {
@@ -216,13 +255,26 @@ namespace QA_Project.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 string uid = User.Identity.GetUserId();
-                Application_Business_Logic.DownVote(postID,uid);
+                Application_Business_Logic.DownVote(postID, uid);
 
             }
 
 
             // if user has voted then add a downvote to this post for user. and delete upvoted one.
             return RedirectToAction("AllFollowedPost", new { post_id = postID });
+        }
+
+
+        public ActionResult AddComment(int? post_id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddAnswer(int? post_id, string discription)
+        {
+            var i = post_id;
+            return View();
         }
 
         //public ActionResult url(dynamic q)
@@ -240,7 +292,7 @@ namespace QA_Project.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-            //ApplicationDbContext context = new ApplicationDbContext();
+            ApplicationDbContext context = new ApplicationDbContext();
             //var allFollowed = context.Followed_Posts.ToList();
             //foreach (var f in allFollowed)
             //{
@@ -250,7 +302,7 @@ namespace QA_Project.Controllers
             //        context.SaveChanges();
             //    }
             //}
-            //Seeding seeding = new Seeding();
+            Seeding seeding = new Seeding();
             ////  This method will be called after migrating to the latest version.
             //var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
@@ -259,7 +311,7 @@ namespace QA_Project.Controllers
 
             ////Seeding questions and answers with relationship with users. 
             //seeding.SeedDatabaseWithData(context);
-
+            seeding.UpdateQuestionCount(context);
 
             return View();
         }

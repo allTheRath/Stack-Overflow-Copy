@@ -11,6 +11,20 @@ namespace QA_Project.Models
     {
         Random random = new Random();
 
+        public void UpdateQuestionCount(ApplicationDbContext db)
+        {
+            var allquestins = db.All_Posts.Where(x => x.Post_Type == Post_Type.Question).ToList();
+            foreach (var q in allquestins)
+            {
+                q.View_Count = (new Random()).Next(5, 500);
+                var allfollowedPostC = db.Followed_Posts.Where(x => x.Main_Post_Id == q.Id).ToList().Count();
+
+                q.Answered_Count = allfollowedPostC;
+            }
+            db.SaveChanges();
+
+        }
+
         public void SeedUserAccounts(UserManager<ApplicationUser> userManager, ApplicationDbContext db)
         {
 
@@ -32,7 +46,7 @@ namespace QA_Project.Models
             var AllUsers = db.Users.ToList();
 
             var allAta = db.All_Tags.ToList();
-            foreach(var a in allAta)
+            foreach (var a in allAta)
             {
                 db.All_Tags.Remove(a);
                 db.SaveChanges();
@@ -64,7 +78,7 @@ namespace QA_Project.Models
                 question.Discription = GetDiscription();
                 question.Voted_Count = GetVotedCount();
                 question.Post_Type = Post_Type.Question;
-                question.PostedOn = DateTime.Now.AddDays(-random.Next(1,5)).AddMilliseconds(random.Next(10000));
+                question.PostedOn = DateTime.Now.AddDays(-random.Next(1, 5)).AddMilliseconds(random.Next(10000));
                 question.Acceptance_Of_Post = false;
                 question.Answered_Count = 0;
 
@@ -114,7 +128,7 @@ namespace QA_Project.Models
 
                     db.All_Posts.Add(answer);
                     db.SaveChanges();
-                    User_Post addedAnswer = db.All_Posts.ToList().Where(x => x == answer ).FirstOrDefault();
+                    User_Post addedAnswer = db.All_Posts.ToList().Where(x => x == answer).FirstOrDefault();
                     Answers.Add(addedAnswer);
 
                     Followed_Post followed_Posted_Answer = new Followed_Post();

@@ -111,31 +111,29 @@
                              itemtype="http://schema.org/Answer">
                             <div class="post-layout">
                                 <div class="votecell post-layout--left">
-                                    <div class="js-voting-container grid fd-column ai-stretch gs4 fc-black-200" data-post-id="58860635">
-                                        <button class="js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is useful"
-                                                aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary">
+
+
+                                    <div class="js-voting-container grid fd-column ai-stretch gs4 fc-black-200" data-post-id="58860454">
+                                        <a href="@Url.Action("UpvoteFromAllAns","Home",new { post_id = @item.Id,mainId = (int)@ViewBag.QuestionId})" class="js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This question shows research effort; it is useful and clear" aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary">
                                             <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36">
                                                 <path d="M2 26h32L18 10 2 26z"></path>
                                             </svg>
-                                        </button>
-                                        <div class="js-vote-count grid--cell fc-black-500 fs-title grid fd-column ai-center"
-                                             itemprop="upvoteCount" data-value="0">0</div>
-                                        <button class="js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer"
-                                                title="This answer is not useful" aria-pressed="false" aria-label="down vote"
-                                                data-selected-classes="fc-theme-primary">
-                                            <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg"
-                                                 width="36" height="36" viewBox="0 0 36 36">
+                                        </a>
+                                        <div class="js-vote-count grid--cell fc-black-500 fs-title grid fd-column ai-center" itemprop="upvoteCount" data-value="0">@item.Voted_Count</div>
+                                        <a href="@Url.Action("DownvoteFromAllAns",new { post_id = @item.Id,mainId = (int)@ViewBag.QuestionId})" class="js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer" title="This question does not show any research effort; it is unclear or not useful" aria-pressed="false" aria-label="down vote" data-selected-classes="fc-theme-primary">
+                                            <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36" viewBox="0 0 36 36">
                                                 <path d="M2 10h32L18 26 2 10z"></path>
                                             </svg>
+                                        </a>
+
+                                        <button class="js-favorite-btn s-btn s-btn__unset c-pointer py8 js-gps-track" aria-pressed="false" aria-label="favorite" data-selected-classes="fc-yellow-600" data-gps-track="post.click({ item: 1, priv: 0, post_type: 1 })">
+                                            <svg aria-hidden="true" class="svg-icon iconStar" width="18" height="18" viewBox="0 0 18 18">
+                                                <path d="M9 12.65l-5.29 3.63 1.82-6.15L.44 6.22l6.42-.17L9 0l2.14 6.05 6.42.17-5.1 3.9 1.83 6.16L9 12.65z">
+                                                </path>
+                                            </svg>
+                                            <div class="js-favorite-count mt8" data-value=""></div>
                                         </button>
 
-
-                                        <div class="js-accepted-answer-indicator grid--item fc-green-500 ta-center p4 d-none"
-                                             title="loading when this answer was accepted..." tabindex="0" role="note" aria-label="accepted">
-                                            <svg aria-hidden="true" class="svg-icon iconCheckmarkLg" width="36" height="36" viewBox="0 0 36 36">
-                                                <path d="M6 14l8 8L30 6v8L14 30l-8-8v-8z"></path>
-                                            </svg>
-                                        </div>
 
                                     </div>
 
@@ -252,8 +250,8 @@
 
                     <!--Post an answer to question....-->
 
-                    <form id="post-form" action="/questions/58860454/answer/submit" method="post"
-                          class="js-add-answer-component post-form">
+
+                    <div class="js-add-answer-component post-form">
                         <input type="hidden" id="post-id" value="58860454">
                         <input type="hidden" id="qualityBanWarningShown" name="qualityBanWarningShown" value="false">
                         <input type="hidden" name="referrer" value="https://stackoverflow.com/questions/tagged/c%23">
@@ -317,10 +315,26 @@
                                     </div>
                                     <div class="js-stacks-validation">
                                         <div class="ps-relative">
-                                            <textarea id="wmd-input" name="post-text"
-                                                      class="wmd-input js-wz-element s-input bar0 js-post-body-field" data-post-type-id="2" cols="92"
-                                                      rows="15" tabindex="101" data-wz-state="256" data-min-length="" style="max-width: 100%;"></textarea>
+                                            @using (Html.BeginForm("AddAnswer", "Home", FormMethod.Post))
+                                            {
+
+                                                @Html.Hidden("post_id", (int)@ViewBag.QuestionId)
+
+                                                @Html.TextArea("discription", new
+                                                {
+                                                    @class = "style-textarea wmd-input js-wz-element s-input bar0 js-post-body-field",
+                                                    @id = "wmd-input",
+                                                    @name = "post-text",
+                                                    @cols = "92",
+                                                    @rows = "15",
+                                                    @tabindex = "101",
+                                                    @style = "max-width: 100%;"
+                                                })
+                                                <input id="submit-button" class="grid--cell s-btn s-btn__primary s-btn__icon" value="Post Your Answer" type="submit" />
+
+                                            }
                                         </div>
+                                        
                                         <div class="s-input-message mt4 d-none js-stacks-validation-message"></div>
                                     </div>
                                 </div>
@@ -350,93 +364,10 @@
 
                         </div>
 
-                        <!-- Post as a guest..-->
-                        @*<div class="ps-relative">
-
-                                <div class="form-item new-post-login p0 my16">
-                                    <div class="grid gs16 md:fd-column new-login-form">
-                                        <div class="grid fd-column w50 md:w-auto gsy gs8 jc-space-between new-login-left">
-                                            <h3 class="grid--cell fs-title">
-                                                Sign up or <a id="login-link"
-                                                              href="/users/login?ssrc=question_page&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f58860454%2frow-visibility-datagridview-c-sharp%23new-answer">
-                                                    log
-                                                    in
-                                                </a>
-                                            </h3>
-                                            <div class="grid--cell s-btn s-btn__muted s-btn__outlined s-btn__icon google-login"
-                                                 data-ga="[&quot;sign up&quot;,&quot;Sign Up Started - Google&quot;,&quot;New Post&quot;,null,null]">
-                                                <svg aria-hidden="true" class="svg-icon native iconGoogle" width="18" height="18"
-                                                     viewBox="0 0 18 18">
-                                                    <path d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"
-                                                          fill="#4285F4"></path>
-                                                    <path d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"
-                                                          fill="#34A853"></path>
-                                                    <path d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z" fill="#FBBC05">
-                                                    </path>
-                                                    <path d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"
-                                                          fill="#EA4335"></path>
-                                                </svg> Sign up using Google
-                                            </div>
-                                            <div class="grid--cell s-btn s-btn__muted s-btn__icon facebook-login"
-                                                 data-ga="[&quot;sign up&quot;,&quot;Sign Up Started - Facebook&quot;,&quot;New Post&quot;,null,null]">
-                                                <svg aria-hidden="true" class="svg-icon iconFacebook" width="18" height="18" viewBox="0 0 18 18">
-                                                    <path d="M3 1a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3zm6.55 16v-6.2H7.46V8.4h2.09V6.61c0-2.07 1.26-3.2 3.1-3.2.88 0 1.64.07 1.87.1v2.16h-1.29c-1 0-1.19.48-1.19 1.18V8.4h2.39l-.31 2.42h-2.08V17h-2.5z"
-                                                          fill="#4167B2"></path>
-                                                </svg> Sign up using Facebook
-                                            </div>
-                                            <div class="grid--cell s-btn s-btn__muted s-btn__outlined s-btn__icon stackexchange-login"
-                                                 data-ga="[&quot;sign up&quot;,&quot;Sign Up Navigation&quot;,&quot;New Post&quot;,null,null]">
-                                                <svg aria-hidden="true" class="svg-icon native iconLogoGlyphXSm" width="18" height="18"
-                                                     viewBox="0 0 18 18">
-                                                    <path d="M14 16v-5h2v7H2v-7h2v5h10z" fill="#BCBBBB"></path>
-                                                    <path d="M12.09.72l-1.21.9 4.5 6.07 1.22-.9L12.09.71zM5 15h8v-2H5v2zm9.15-5.87L8.35 4.3l.96-1.16 5.8 4.83-.96 1.16zm-7.7-1.47l6.85 3.19.63-1.37-6.85-3.2-.63 1.38zm6.53 5L5.4 11.39l.38-1.67 7.42 1.48-.22 1.46z"
-                                                          fill="#F48024"></path>
-                                                </svg> Sign up using Email and Password
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="use-facebook" class="use-facebook" value="false">
-                                        <input type="hidden" name="use-google" class="use-google" value="false">
-                                        <input type="button" class="submit-openid" value="Submit" style="display:none">
-                                        <div class="grid gsy gs8 fd-column w50 md:w-auto new-login-right form-item p0">
-                                            <h3 class="grid--cell fs-title">Post as a guest</h3>
-                                            <div class="grid--cell">
-                                                <div class="grid gs4 gsy fd-column">
-                                                    <label class="s-label" for="display-name">Name</label>
-                                                    <div class="grid ps-relative">
-                                                        <input class="s-input" id="display-name" name="display-name" maxlength="30" type="text"
-                                                               value="" tabindex="105" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="grid--cell">
-                                                <div class="grid gs4 gsy fd-column">
-                                                    <div class="grid--cell">
-                                                        <div class="grid gs2 gsy fd-column">
-                                                            <label class="grid--cell s-label" for="m-address">Email</label>
-                                                            <p class="grid--cell s-description">Required, but never shown</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid ps-relative">
-                                                        <input class="s-input js-post-email-field" id="m-address" name="m-address" type="text"
-                                                               value="" size="40" tabindex="106" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                            </div>*@
-
                         <!-- Submit button .....-->
                         <div class="form-submit cbt grid gsx gs4">
-                            <button id="submit-button" class="grid--cell s-btn s-btn__primary s-btn__icon" type="submit"
-                                    tabindex="120" autocomplete="off">
-                                Post Your Answer
-                            </button>
+
+
                             <button class="grid--cell s-btn s-btn__danger discard-answer dno">
                                 Discard
                             </button>
@@ -448,9 +379,10 @@
                             </p>
                         </div>
                         <div class="js-general-error general-error cbt d-none"></div>
-                    </form>
 
+                    </div>
 
+                    }
 
                     <!-- A helper tag functionality..-->
                     <h2 class="bottom-notice" data-loc="1">

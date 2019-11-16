@@ -188,6 +188,10 @@
     <Compile Include="Migrations\201911112204376_InitialCreate.Designer.cs">
       <DependentUpon>201911112204376_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911152254473_adding_field.cs" />
+    <Compile Include="Migrations\201911152254473_adding_field.Designer.cs">
+      <DependentUpon>201911152254473_adding_field.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application_Business_Logic.cs" />
@@ -291,6 +295,7 @@
     <Content Include="Views\Home\Get_All_Comments_Partial.cshtml" />
     <Content Include="Views\Home\SearchGoogle.cshtml" />
     <Content Include="Views\User_Post\AddOrCreateTags.cshtml" />
+    <Content Include="Views\Home\AddAnswer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -311,6 +316,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911112204376_InitialCreate.resx">
       <DependentUpon>201911112204376_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911152254473_adding_field.resx">
+      <DependentUpon>201911152254473_adding_field.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

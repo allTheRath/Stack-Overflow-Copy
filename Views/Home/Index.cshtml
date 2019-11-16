@@ -59,7 +59,7 @@
     overflow: hidden;
     position: absolute;
     width: max-content;
-    padding-top:120px;
+    padding-top:60px;
     ">
     <div id="mainbar">
         <div class="grid">
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                         <div class="views " title="3 views">
-                            3 views
+                            @item.View_Count views
                         </div>
                     </div>
                     <div class="summary">
@@ -154,15 +154,15 @@ margin: 12px 0;">
 
                         </div>
                         @*<div class="tags t-cñ t-ûnet t-file-upload t-google-drive-api">
-                            <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a>
-                            <a href="/questions/tagged/file-upload" class="post-tag" title="show questions tagged 'file-upload'"
-                               rel="tag">file-upload</a> <a href="/questions/tagged/google-drive-api" class="post-tag"
-                                                            title="show questions tagged 'google-drive-api'" rel="tag">google-drive-api</a>
-                        </div>*@
+                                <a href="/questions/tagged/c%23" class="post-tag" title="show questions tagged 'c#'" rel="tag">c#</a> <a href="/questions/tagged/.net" class="post-tag" title="show questions tagged '.net'" rel="tag">.net</a>
+                                <a href="/questions/tagged/file-upload" class="post-tag" title="show questions tagged 'file-upload'"
+                                   rel="tag">file-upload</a> <a href="/questions/tagged/google-drive-api" class="post-tag"
+                                                                title="show questions tagged 'google-drive-api'" rel="tag">google-drive-api</a>
+                            </div>*@
 
 
                         @{
-                            Html.RenderAction("AllTags", new { post_id = item.Id });
+                            Html.RenderAction("AllTags", new { post_id = @item.Id });
                         }
 
                         <div class="started fr">
@@ -179,11 +179,50 @@ margin: 12px 0;">
                                     </a>
                                 </div>
                                 <div class="user-details">
-                                    UDetails.. Html componnent
+
+                                    <div class="post-layout--right">
+                                        <div id="comments-58860635" class="comments js-comments-container bt bc-black-2 mt12 "
+                                             data-post-id="58860635" data-min-length="15">
+
+                                            <!--List of comments here...-->
+
+                                            @{
+                                                Html.RenderAction("Get_All_Comments_Partial", new { post_id = @item.Id });
+                                            }
+
+                                        </div>
+
+                                        <!--Add Comments link here..-->
+                                    </div>
+
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
+
+                    <div id="comments-link-58860635" data-rep="50" data-anon="true">
+                        <div>
+                            <div>
+                                @Html.ActionLink("add comment", "AddComment", new { post_id = @item.Id }, new
+                                {
+                                    @class = "js-add-link comments-link disabled-link underline",
+                                   @title = "Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                                })
+                            </div><div>
+                                @Html.ActionLink("add answer", "AddComment", new { post_id = @item.Id }, new
+                                {
+                                    @class = "js-add-link comments-link disabled-link underline",
+                                   @title = "Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                                })
+                            </div>
+                        </div>
+                        <span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+                        <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#"
+                           onclick=""></a>
+                    </div>
+
                 </div>
 
             }
@@ -238,3 +277,11 @@ margin: 12px 0;">
     </span>
 </span>
 
+
+<style>
+    .underline{
+border-bottom: 1px solid grey;
+    padding-top: 3px;
+    padding-bottom: 0px;
+    }
+</style>
