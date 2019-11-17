@@ -48,10 +48,19 @@ namespace QA_Project.Controllers
     public class HomeController : Controller
     {
         // Moc design implementation.
+        //1-Newest, 2-Most answers 3-Top Questions 
         Application_Business_Logic Application_Business_Logic = new Application_Business_Logic(new Application_DataAccess());
 
-        public ActionResult Index(string searchString, string currentFilter, int? page)
+        public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
+
+            //ViewBag.DateSortParm; 
+
+            ViewBag.Newest = "newest";
+            ViewBag.Most_answered = "most_answered";
+            ViewBag.Top_question = "top_question";
+
+
             var questions = new List<User_Post>();
             if (searchString != null)
             {
@@ -78,6 +87,19 @@ namespace QA_Project.Controllers
             int pageNumber = (page ?? 1);
             ViewBag.Page = pageNumber;
 
+            switch (sortOrder)
+            {
+                case "newest":
+                    questions = questions.OrderByDescending(s => s.PostedOn).ToList();
+                    break;
+                case "most_answered":
+                    questions = questions.OrderByDescending(s => s.Answered_Count).ToList();
+                    break;
+                case "top_question":
+                    questions = questions.OrderByDescending(s => s.PostedOn).ToList();
+                    questions = questions.OrderByDescending(s => s.Answered_Count).ToList();
+                    break;
+            }
             return View(questions.ToPagedList(pageNumber, pageSize));
         }
 
@@ -370,53 +392,58 @@ namespace QA_Project.Controllers
 
         // All user related code below.............
 
-        public ActionResult UpdateProfilePic()
+        public ActionResult UpdateUserInfo()
         {
 
             return View();
         }
         [HttpPost]
-        public ActionResult UpdateProfilePic(HttpPostedFileBase file)
+        public ActionResult UpdateUserInfo(string ScreenName, HttpPostedFileBase file)
         {
 
-            if (file != null && file.ContentLength > 0)
+            if (User.Identity.IsAuthenticated)
             {
-                var fileextention = Path.GetExtension(file.FileName).ToLower();
-                if (fileextention == ".jpg" || fileextention == ".jpeg" || fileextention == ".bmp" || fileextention == ".png")
+
+                if (file != null && file.ContentLength > 0)
                 {
-                    string uid = User.Identity.Name;
-                    if (uid != "")
+                    var fileextention = Path.GetExtension(file.FileName).ToLower();
+                    if (fileextention == ".jpg" || fileextention == ".jpeg" || fileextention == ".bmp" || fileextention == ".png")
                     {
-                        bool exists = Directory.Exists(Server.MapPath("~/User-Profile-Pic/" + uid));
-                        if (!exists)
+                        string uid = User.Identity.GetUserId();
+                        if (uid != "")
                         {
-                            // if directory not exist then create it.
-                            Directory.CreateDirectory(Server.MapPath("~/User-Profile-Pic/" + uid));
+                            bool exists = Directory.Exists(Server.MapPath("~/User-Profile-Pic/" + uid));
+                            if (!exists)
+                            {
+                                // if directory not exist then create it.
+                                Directory.CreateDirectory(Server.MapPath("~/User-Profile-Pic/" + uid));
+                            }
+                            if (System.IO.File.Exists(Server.MapPath("~/User-Profile-Pic/" + uid + "/" + "profilepic" + fileextention)))
+                            {
+                                // if file exist then delete it.
+                                System.IO.File.Delete(Server.MapPath("~/User-Profile-Pic/" + uid + "/" + "profilepic" + fileextention));
+                            }
+                            var path = Path.Combine(Server.MapPath("~/User-Profile-Pic/" + uid + "/"), "profilepic" + fileextention);
+                            file.SaveAs(path);
+                            string imageUrl = "/User-Profile-Pic/" + uid + "/profilepic" + fileextention;
+                            Application_Business_Logic.AddUserProfileInfo(imageUrl, ScreenName, uid);
                         }
-                        if (System.IO.File.Exists(Server.MapPath("~/User-Profile-Pic/" + uid + "/" + "profilepic" + fileextention)))
-                        {
-                            // if file exist then delete it.
-                            System.IO.File.Delete(Server.MapPath("~/User-Profile-Pic/" + uid + "/" + "profilepic" + fileextention));
-                        }
-                        var path = Path.Combine(Server.MapPath("~/User-Profile-Pic/" + uid + "/"), "profilepic" + fileextention);
-                        file.SaveAs(path);
-                        string userid = User.Identity.GetUserId();
-                        //Profile profile = db.Profiles.Where(x => x.UserId == userid).FirstOrDefault();
-                        //if (profile != null)
-                        //{
-                        //   // profile.ProfilePic = "/User-Profile-Pic/" + uid + "/profilepic" + fileextention;
-                        //  //  db.SaveChanges();
-                        //}
+
                     }
-
                 }
+
+
             }
-
-
-            return RedirectToAction("Student");
+            return RedirectToAction("Index");
         }
 
+        public ActionResult Get_User_Info_Partial(int? post_id)
+        {
+            int postId = Convert.ToInt32(post_id);
+            AddUserInfoViewmodel addUserInfoViewmodel = Application_Business_Logic.GetUserInfoByPostId(postId);
 
+            return View(addUserInfoViewmodel);
+        }
 
 
 

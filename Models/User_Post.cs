@@ -111,5 +111,14 @@ namespace QA_Project.Models
         public int Answered_Count { get; set; }
     }
 
+
+    public class AddUserInfoViewmodel
+    {
+        public string U_Name { get; set; }
+        public string Profile_Url { get; set; }
+        public int Reputation { get; set; }
+        public Badge_Type User_Badge_Type { get; set; }
+        public int Badge_Count { get; set; }
+    }
 }
 

@@ -15,6 +15,17 @@ namespace QA_Project.Models
             this.dataAccess = dataAccess;
         }
 
+        // All user properties....
+        public void AddUserProfileInfo(string imageUrl, string screenName, string userId)
+        {
+            this.dataAccess.AddUserProfileInfo(imageUrl, screenName, userId);
+        }
+
+        public AddUserInfoViewmodel GetUserInfoByPostId(int postid)
+        {
+            return this.dataAccess.GetUserInfoByPostId(postid);
+        }
+
         // All access end points for database methods here..
         public void Add_Post(User_Post post)
         {
@@ -79,7 +90,7 @@ namespace QA_Project.Models
 
         public int GetLastOrderOfFollowedPost(int postId)
         {
-            return this.dataAccess.GetLastOrderOfFollowedPost(postId); 
+            return this.dataAccess.GetLastOrderOfFollowedPost(postId);
         }
         public void UpVote(int postID, string uid)
         {

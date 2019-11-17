@@ -11,6 +11,7 @@ namespace QA_Project.Models
     {
         Random random = new Random();
 
+
         public void UpdateQuestionCount(ApplicationDbContext db)
         {
             var allquestins = db.All_Posts.Where(x => x.Post_Type == Post_Type.Question).ToList();

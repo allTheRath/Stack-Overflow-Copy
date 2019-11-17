@@ -212,6 +212,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-QA-Project-20191110034047.mdf" />
+    <Content Include="App_Data\aspnet-QA-Project-20191110034047_log.ldf">
+      <DependentUpon>aspnet-QA-Project-20191110034047.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -304,10 +308,10 @@
     <Content Include="Views\Home\SearchGoogle.cshtml" />
     <Content Include="Views\User_Post\AddOrCreateTags.cshtml" />
     <Content Include="Views\Home\AddAnswer.cshtml" />
-    <Content Include="Views\Home\UpdateProfilePic.cshtml" />
+    <Content Include="Views\Home\UpdateUserInfo.cshtml" />
+    <Content Include="Views\Home\Get_User_Info_Partial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="User-Profile-Pic\" />
   </ItemGroup>
   <ItemGroup>

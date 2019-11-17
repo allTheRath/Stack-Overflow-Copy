@@ -16,6 +16,7 @@ namespace QA_Project.Models
         void Add_User_Vote_Of_Post(User_Vote_Of_Post user_Vote_Of_Post);
         void Upvote(int post_id, string userid);
         void Downvote(int post_id, string userid);
+        void AddUserProfileInfo(string imageUrl, string screenName, string userId);
 
         // Geting data from database methods below........
         User_Post GetPostByDiscription(string discription);
@@ -27,6 +28,7 @@ namespace QA_Project.Models
         List<User_Post> GetAllFollowedCommentByPostId(int postId);
         User_Post GetPostById(int postId);
         int GetLastOrderOfFollowedPost(int postId);
+        AddUserInfoViewmodel GetUserInfoByPostId(int postid);
     }
 
     // All database accessible methods here.
@@ -71,7 +73,7 @@ namespace QA_Project.Models
             }
             else if (followedPost.Post_Type == Post_Type.Comment)
             {
-                if(mainPost.Comment_Count == null)
+                if (mainPost.Comment_Count == null)
                 {
                     mainPost.Comment_Count = 0;
                 }
@@ -160,10 +162,14 @@ namespace QA_Project.Models
             foreach (var followed_post_id in fPostIds)
             {
                 User_Post user_Post = db.All_Posts.Find(followed_post_id);
-                if (user_Post.Post_Type == Post_Type.Comment)
+                if(user_Post != null)
                 {
-                    user_Posts.Add(user_Post);
+                    if (user_Post.Post_Type == Post_Type.Comment)
+                    {
+                        user_Posts.Add(user_Post);
+                    }
                 }
+
             }
             return user_Posts.OrderByDescending(x => x.PostedOn).ToList();
         }
@@ -195,6 +201,8 @@ namespace QA_Project.Models
             user_Vote_Of_Post.Post_Id = post_id;
             db.User_Vote_Of_Posts.Add(user_Vote_Of_Post);
             post.Voted_Count += 1;
+            var user = db.Users.Find(post.Associated_User_Id);
+            user.Reputation += 5;
             db.SaveChanges();
 
         }
@@ -219,6 +227,8 @@ namespace QA_Project.Models
             user_Vote_Of_Post.Voted_Type = Voted_Type.DownVoted;
             user_Vote_Of_Post.Post_Id = post_id;
             db.User_Vote_Of_Posts.Add(user_Vote_Of_Post);
+            var user = db.Users.Find(post.Associated_User_Id);
+            user.Reputation -= 5;
             db.SaveChanges();
         }
 
@@ -238,6 +248,44 @@ namespace QA_Project.Models
             {
                 return 1;
             }
+        }
+
+        public void AddUserProfileInfo(string imageUrl, string screenName, string userId)
+        {
+            ApplicationUser user = db.Users.Find(userId);
+            if (user == null)
+            {
+                return;
+            }
+
+            user.ProfileImageUrl = imageUrl;
+            db.SaveChanges();
+        }
+
+
+        public AddUserInfoViewmodel GetUserInfoByPostId(int postid)
+        {
+            AddUserInfoViewmodel addUserInfoViewmodel = new AddUserInfoViewmodel();
+            User_Post post = db.All_Posts.Find(postid);
+            var uid = post.Associated_User_Id;
+            ApplicationUser user = db.Users.Find(uid);
+            addUserInfoViewmodel.Badge_Count = 0;
+            if (user.ProfileImageUrl == null)
+            {
+                addUserInfoViewmodel.Profile_Url = "";
+
+            }
+            else
+            {
+                addUserInfoViewmodel.Profile_Url = user.ProfileImageUrl;
+            }
+            addUserInfoViewmodel.Reputation = user.Reputation;
+            user.DisplayName = user.Email.Split('@')[0];
+            db.SaveChanges();
+            addUserInfoViewmodel.U_Name = user.DisplayName;
+            addUserInfoViewmodel.User_Badge_Type = user.User_Badge;
+
+            return addUserInfoViewmodel;
         }
     }
 

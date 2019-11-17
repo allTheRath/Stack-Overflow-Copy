@@ -1,0 +1,79 @@
+﻿@model QA_Project.Models.AddUserInfoViewmodel
+@{
+    Layout = null;
+}
+<div class="user-gravatar32">
+    <a href="#">
+        <div class="gravatar-wrapper-32">
+
+            @if (@Model.Profile_Url == "")
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                    <g >
+
+                        <path fill="#C9CBCF" d="M0 400v31h31v-31" />
+                        <path fill="#FFF" d="M20 419a14.09 14.09 0 0 1 8 12H3a14.1 14.1 0 0 1 8-12v-.5a7.49 7.49 0 0 1 4.5-13.5 7.5 7.5 0 0 1 4.5 13.5v.5z" />
+                    </g>
+                </svg>
+
+            }
+            else
+            {
+                <img src=@Model.Profile_Url
+                     alt="" width="32" height="32" class="bar-sm">
+            }
+        </div>
+    </a>
+</div>
+<div class="user-details">
+    <a>@Model.U_Name</a>
+    <div class="-flair">
+        <span class="reputation-score" title="reputation score " dir="ltr">7,723</span>
+        <span title="badges" aria-hidden="true">
+            <span class="badge1">
+                @if (Model.User_Badge_Type == QA_Project.Models.Badge_Type.Golden)
+                {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="189" height="530" viewBox="0 0 189 530">
+                        <g fill="#FFCC01" stroke="#FFCC01" stroke-width="5">
+                            <circle cx="40" cy="40" r="25" />
+                        </g>
+                    </svg>
+                }
+                else if (Model.User_Badge_Type == QA_Project.Models.Badge_Type.Silver)
+                {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="189" height="530" viewBox="0 0 189 530">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Using g to inherit presentation attributes -->
+                            <g fill="#b4b8bc" stroke="#b4b8bc" stroke-width="5">
+                                <circle cx="40" cy="40" r="25" />
+                            </g>
+                        </svg>
+                    </svg>
+                }
+                else if (Model.User_Badge_Type == QA_Project.Models.Badge_Type.Browne)
+                {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="189" height="530" viewBox="0 0 189 530">
+                        <g fill="#d1a684" stroke="#d1a684" stroke-width="5">
+                            <circle cx="40" cy="40" r="25" />
+                        </g>
+
+                    </svg>
+                }
+                else
+                {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="189" height="530" viewBox="0 0 189 530">
+                        <g fill="#00ffff" stroke="#00ffff" stroke-width="5">
+                            <circle cx="40" cy="40" r="25" />
+                        </g>
+
+                    </svg>
+                }
+
+            </span>
+            <span class="badgecount">
+                @Model.Badge_Count
+            </span>
+        </span>
+
+    </div>
+</div>

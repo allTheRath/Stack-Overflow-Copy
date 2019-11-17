@@ -72,7 +72,11 @@
                             <input type="submit" value="Search" />
                         </p>
                     }
-
+                    <p>
+                        @Html.ActionLink("Newest", "Index", new { page = ViewBag.Page, currentFilter = ViewBag.CurrentFilter, sortOrder = ViewBag.Newest })
+                        @Html.ActionLink("Most-Answered", "Index", new { page = ViewBag.Page, currentFilter = ViewBag.CurrentFilter, sortOrder = ViewBag.Most_answered })
+                        @Html.ActionLink("Top Questions", "Index", new { page = ViewBag.Page, currentFilter = ViewBag.CurrentFilter, sortOrder = ViewBag.Top_question })
+                    </p>
 
                 </h6>
             </div>
@@ -175,22 +179,16 @@ margin: 12px 0;">
                     </div>
                         <!--Add Comments link here..-->
 
-                        <div class="started fr">
-                            <div class="user-info user-hover">
-                                <div class="user-action-time">
-                                    asked <span title=@item.PostedOn class="relativetime">on @item.PostedOn.ToString("g")</span>
-                                </div>
-                                <div class="user-gravatar32">
-                                    <a href="#">
-                                        <div class="gravatar-wrapper-32">
-                                            <img src="https://www.gravatar.com/avatar/1861f9453d0aae6608c8520c1461ad16?s=32&amp;d=identicon&amp;r=PG"
-                                                 alt="" width="32" height="32" class="bar-sm">
-                                        </div>
-                                    </a>
-                                </div>
+                    <div class="started fr">
+                        @{
+                            Html.RenderAction("Get_All_Comments_Partial", new { post_id = @item.Id });
+                        }
 
-                            </div>
-                        </div>
+                        @{
+                            Html.RenderAction("Get_User_Info_Partial", new { post_id = @item.Id });
+                        }
+
+                    </div>
                     </div>
 
                     <div id="comments-link-58860635" data-rep="50" data-anon="true">
