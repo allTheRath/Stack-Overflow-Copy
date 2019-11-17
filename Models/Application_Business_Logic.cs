@@ -27,6 +27,10 @@ namespace QA_Project.Models
             this.dataAccess.Add_Post_Tag(post_Tag);
         }
 
+        public void Add_Followed_Post_Tag(Followed_Post followed_Post)
+        {
+            this.dataAccess.Add_FollowedPost(followed_Post);
+        }
 
         public void Add_Tag(Tag tag)
         {
@@ -63,12 +67,20 @@ namespace QA_Project.Models
             return this.dataAccess.GetPostById(postId);
         }
 
+        public User_Post GetPostByDiscription(string discription)
+        {
+            return this.dataAccess.GetPostByDiscription(discription);
+        }
+
         public List<User_Post> GetAllFollowedCommentByPostId(int postId)
         {
             return this.dataAccess.GetAllFollowedCommentByPostId(postId);
         }
 
-
+        public int GetLastOrderOfFollowedPost(int postId)
+        {
+            return this.dataAccess.GetLastOrderOfFollowedPost(postId); 
+        }
         public void UpVote(int postID, string uid)
         {
 

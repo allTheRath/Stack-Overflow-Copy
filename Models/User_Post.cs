@@ -26,6 +26,8 @@ namespace QA_Project.Models
         // or sort the answers with replied or followed answers. Kind of like a thread in slack for conversation.
         public int Answered_Count { get; set; }
 
+        public int? Comment_Count { get; set; }
+
         public int? View_Count { get; set; }
 
         // A bool to represent the accepetance of the current reply. this is strictly for the question poster to set it to true.

@@ -76,6 +76,8 @@ namespace QA_Project.Controllers
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);
+            ViewBag.Page = pageNumber;
+
             return View(questions.ToPagedList(pageNumber, pageSize));
         }
 
@@ -264,17 +266,103 @@ namespace QA_Project.Controllers
             return RedirectToAction("AllFollowedPost", new { post_id = postID });
         }
 
-
-        public ActionResult AddComment(int? post_id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCommentFromSinglePost(int? post_id, string discription)
         {
-            return View();
+            int postid = Convert.ToInt32(post_id);
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("AllFollowedPost", new { post_id = postid });
+            }
+
+            User_Post user_Post = new User_Post();
+            user_Post.Acceptance_Of_Post = false;
+            user_Post.Associated_User_Id = User.Identity.GetUserId();
+            user_Post.Discription = discription;
+            user_Post.PostedOn = DateTime.Now;
+            user_Post.Post_Type = Post_Type.Comment;
+            user_Post.Title = "";
+            user_Post.View_Count = 0;
+            user_Post.Voted_Count = 0;
+
+            //  user_Post.
+            Application_Business_Logic.Add_Post(user_Post);
+
+            // connect comment to question.
+            Followed_Post followed_Post = new Followed_Post();
+            followed_Post.Followed_Post_Id = ((User_Post)Application_Business_Logic.GetPostByDiscription(user_Post.Discription)).Id;
+            followed_Post.Main_Post_Id = postid;
+            followed_Post.Order = Application_Business_Logic.GetLastOrderOfFollowedPost(postid);
+            Application_Business_Logic.Add_Followed_Post_Tag(followed_Post);
+            return RedirectToAction("AllFollowedPost", new { post_id = postid });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddComment(int? post_id, string discription, string currentFilter, int? page)
+        {
+            int postid = Convert.ToInt32(post_id);
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", new { currentFilter = currentFilter, page = page });
+            }
+
+            User_Post user_Post = new User_Post();
+            user_Post.Acceptance_Of_Post = false;
+            user_Post.Associated_User_Id = User.Identity.GetUserId();
+            user_Post.Discription = discription;
+            user_Post.PostedOn = DateTime.Now;
+            user_Post.Post_Type = Post_Type.Comment;
+            user_Post.Title = "";
+            user_Post.View_Count = 0;
+            user_Post.Voted_Count = 0;
+
+            //  user_Post.
+            Application_Business_Logic.Add_Post(user_Post);
+
+            // connect comment to question.
+            Followed_Post followed_Post = new Followed_Post();
+            followed_Post.Followed_Post_Id = ((User_Post)Application_Business_Logic.GetPostByDiscription(user_Post.Discription)).Id;
+            followed_Post.Main_Post_Id = postid;
+            followed_Post.Order = Application_Business_Logic.GetLastOrderOfFollowedPost(postid);
+            Application_Business_Logic.Add_Followed_Post_Tag(followed_Post);
+            return RedirectToAction("Index", new { currentFilter = currentFilter, page = page });
         }
 
         [HttpPost]
         public ActionResult AddAnswer(int? post_id, string discription)
         {
-            var i = post_id;
-            return View();
+
+            int postid = Convert.ToInt32(post_id);
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("AllFollowedPost", new { post_id = postid });
+            }
+
+            User_Post user_Post = new User_Post();
+            user_Post.Acceptance_Of_Post = false;
+            user_Post.Associated_User_Id = User.Identity.GetUserId();
+            user_Post.Discription = discription;
+            user_Post.PostedOn = DateTime.Now;
+            user_Post.Post_Type = Post_Type.Answer;
+            user_Post.Title = "";
+            user_Post.View_Count = 0;
+            user_Post.Voted_Count = 0;
+
+            //  user_Post.
+            Application_Business_Logic.Add_Post(user_Post);
+
+            // connect comment to question.
+            Followed_Post followed_Post = new Followed_Post();
+            followed_Post.Followed_Post_Id = ((User_Post)Application_Business_Logic.GetPostByDiscription(user_Post.Discription)).Id;
+            followed_Post.Main_Post_Id = postid;
+            followed_Post.Order = Application_Business_Logic.GetLastOrderOfFollowedPost(postid);
+            Application_Business_Logic.Add_Followed_Post_Tag(followed_Post);
+            return RedirectToAction("AllFollowedPost", new { post_id = postid });
         }
 
         //public ActionResult url(dynamic q)
@@ -311,7 +399,7 @@ namespace QA_Project.Controllers
 
             ////Seeding questions and answers with relationship with users. 
             //seeding.SeedDatabaseWithData(context);
-            seeding.UpdateQuestionCount(context);
+            seeding.UpdateCommentCount(context);
 
             return View();
         }

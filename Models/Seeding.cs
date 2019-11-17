@@ -25,6 +25,30 @@ namespace QA_Project.Models
 
         }
 
+        public void UpdateCommentCount(ApplicationDbContext db)
+        {
+            var allquestins = db.All_Posts.Where(x => x.Post_Type == Post_Type.Answer).ToList();
+            foreach (var q in allquestins)
+            {
+                var allfollowedPostC = db.Followed_Posts.Where(x => x.Main_Post_Id == q.Id).ToList();
+                foreach (var a in allfollowedPostC)
+                {
+                    User_Post followed = db.All_Posts.Find(a.Followed_Post_Id);
+                    if (followed.Post_Type == Post_Type.Comment)
+                    {
+                        if (q.Comment_Count == null)
+                        {
+                            q.Comment_Count = 0;
+                        }
+
+                     //   q.Comment_Count += 1;
+                    }
+                }
+            }
+            db.SaveChanges();
+
+        }
+
         public void SeedUserAccounts(UserManager<ApplicationUser> userManager, ApplicationDbContext db)
         {
 

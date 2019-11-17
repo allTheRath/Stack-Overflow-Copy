@@ -61,26 +61,91 @@
                     </div>
 
 
-                    <div class="post-layout--right">
+                    <div class="post-layout--right" >
                         <div id="comments-58860454" class="comments js-comments-container bt bc-black-2 mt12 "
                              data-post-id="58860454" data-min-length="15">
 
                             @{
                                 Html.RenderAction("Get_All_Comments_Partial", new { post_id = (int)@ViewBag.QuestionId });
                             }
+                            <!--Add Comments link here..-->
+                            <div id="comments-link" class="main" data-rep="50" data-anon="true">
+                                <div>
+                                    <div>
+                                        <div class="js-add-link comments-link disabled-link open-below-tag opened"
+                                             title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add comment</div>
+                                        <div class="hideable">
+                                            @using (Html.BeginForm("AddCommentFromSinglePost", "Home", FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
 
-                            <!-- A link to comment add here.-->
-                            <div id="comments-link-58860454" data-rep="50" data-anon="true">
+                                                @Html.Hidden("post_id", (int)@ViewBag.QuestionId)
+                                                @Html.TextArea("discription", new
+                                                      {
+                                                          @class = "wid style-textarea wmd-input js-wz-element s-input bar0 js-post-body-field",
+                                                          @id = "wmd-input",
+                                                          @name = "post-text",
+                                                          @cols = "42",
+                                                          @rows = "6",
+                                                          @tabindex = "101",
+                                                          @style = "max-width: 100%;"
+                                                      })
+                                                <input type="submit" value="Add" />
+                                            }
+                                        </div>
+                                        <style>
+                                            .hideable {
+                                                visibility: hidden;
+                                                height: 0px;
+                                            }
 
-                                <a class="js-add-link comments-link disabled-link"
-                                   title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments.">
-                                    add
-                                    a comment
-                                </a>
+                                            .comments-link {
+                                                padding-bottom: 3px;
+                                                cursor: pointer;
+                                            }
+
+                                            .wid {
+                                                width: 240px;
+                                                max-width: 240px;
+                                            }
+                                        </style>
+
+                                        <style>
+                                            .underline {
+                                                border-bottom: 1px solid grey;
+                                                padding-top: 3px;
+                                                padding-bottom: 0px;
+                                            }
+
+                                            .hideable {
+                                                visibility: hidden;
+                                                height: 0px;
+                                            }
+                                        </style>
+                                    </div>
+                                </div>
                                 <span class="js-link-separator dno">&nbsp;|&nbsp;</span>
-                                <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#"
-                                   onclick=""></a>
+
                             </div>
+                            @*<script>
+                                    var main = document.querySelector(".main");
+                                    main.addEventListener('click', function (e) {
+                                        if (e.target.nodeName == "DIV") {
+                                            var open = e.target;
+                                            if (open.classList.contains("open-below-tag") && open.classList.contains("opened")) {
+                                                var a = e.target.nextElementSibling;
+                                                a.classList.remove("hideable");
+                                                open.classList.remove("opened");
+                                                open.classList.add("closed");
+                                            } else if (open.classList.contains("open-below-tag") && open.classList.contains("closed")) {
+                                                var a = e.target.nextElementSibling;
+                                                a.classList.add("hideable");
+                                                open.classList.add("opened");
+                                                open.classList.remove("closed");
+                                            }
+                                        }
+                                    });
+                                </script>*@
                         </div>
                     </div>
                 </div>
@@ -204,7 +269,7 @@
                                 <div class="js-post-notices post-layout--full">
                                 </div>
 
-                                <div class="post-layout--right">
+                                <div class="post-layout--right " id="id-@item.Id">
                                     <div id="comments-58860635" class="comments js-comments-container bt bc-black-2 mt12 "
                                          data-post-id="58860635" data-min-length="15">
 
@@ -213,21 +278,88 @@
                                         @{
                                             Html.RenderAction("Get_All_Comments_Partial", new { post_id = item.Id });
                                         }
-
                                     </div>
 
                                     <!--Add Comments link here..-->
-                                    <div id="comments-link-58860635" data-rep="50" data-anon="true">
+                                    <div id="comments-link" class="" data-rep="50" data-anon="true">
+                                        <div>
+                                            <div>
+                                                <div class="js-add-link comments-link disabled-link open-below-tag opened"
+                                                     title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add comment</div>
+                                                <div class="hideable">
+                                                    @using (Html.BeginForm("AddCommentFromSinglePost","Home",FormMethod.Post))
+                                                    {
+                                                        @Html.AntiForgeryToken()
 
-                                        <a class="js-add-link comments-link disabled-link"
-                                           title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">
-                                            add
-                                            a comment
-                                        </a>
+                                                        @Html.Hidden("post_id", @item.Id)
+                                                        @Html.TextArea("discription", new
+                                                              {
+                                                                  @class = "wid style-textarea wmd-input js-wz-element s-input bar0 js-post-body-field",
+                                                                  @id = "wmd-input",
+                                                                  @name = "post-text",
+                                                                  @cols = "42",
+                                                                  @rows = "6",
+                                                                  @tabindex = "101",
+                                                                  @style = "max-width: 100%;"
+                                                              })
+                                                        <input type="submit" value="Add" />
+                                                    }
+                                                </div>
+                                                <style>
+                                                    .hideable {
+                                                        visibility: hidden;
+                                                        height: 0px;
+                                                    }
+
+                                                    .comments-link {
+                                                        padding-bottom: 3px;
+                                                        cursor: pointer;
+                                                    }
+
+                                                    .wid {
+                                                        width: 240px;
+                                                        max-width: 240px;
+                                                    }
+                                                </style>
+                                                <script>
+
+                                                    var mainc = document.querySelector("#id-@item.Id");
+                                                    mainc.addEventListener('click', function (e) {
+                                                        if (e.target.nodeName == "DIV") {
+                                                            console.log(e.target);
+                                                            var open = e.target;
+                                                            if (open.classList.contains("open-below-tag") && open.classList.contains("opened")) {
+                                                                var a = e.target.nextElementSibling;
+                                                                a.classList.remove("hideable");
+                                                                open.classList.remove("opened");
+                                                                open.classList.add("closed");
+                                                            } else if (open.classList.contains("open-below-tag") && open.classList.contains("closed")) {
+                                                                var a = e.target.nextElementSibling;
+                                                                a.classList.add("hideable");
+                                                                open.classList.add("opened");
+                                                                open.classList.remove("closed");
+                                                            }
+                                                        }
+                                                    });
+                                                </script>
+                                                <style>
+                                                    .underline {
+                                                        border-bottom: 1px solid grey;
+                                                        padding-top: 3px;
+                                                        padding-bottom: 0px;
+                                                    }
+
+                                                    .hideable {
+                                                        visibility: hidden;
+                                                        height: 0px;
+                                                    }
+                                                </style>
+                                            </div>
+                                        </div>
                                         <span class="js-link-separator dno">&nbsp;|&nbsp;</span>
-                                        <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#"
-                                           onclick=""></a>
+
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -334,7 +466,7 @@
 
                                             }
                                         </div>
-                                        
+
                                         <div class="s-input-message mt4 d-none js-stacks-validation-message"></div>
                                     </div>
                                 </div>
@@ -382,7 +514,7 @@
 
                     </div>
 
-                    }
+
 
                     <!-- A helper tag functionality..-->
                     <h2 class="bottom-notice" data-loc="1">
@@ -432,6 +564,27 @@
             ele.click();
         });
     </script>*@
+
+<script>
+    var main = document.querySelector(".main");
+    main.addEventListener('click', function (e) {
+        if (e.target.nodeName == "DIV") {
+            var open = e.target;
+            if (open.classList.contains("open-below-tag") && open.classList.contains("opened")) {
+                var a = e.target.nextElementSibling;
+                a.classList.remove("hideable");
+                open.classList.remove("opened");
+                open.classList.add("closed");
+            } else if (open.classList.contains("open-below-tag") && open.classList.contains("closed")) {
+                var a = e.target.nextElementSibling;
+                a.classList.add("hideable");
+                open.classList.add("opened");
+                open.classList.remove("closed");
+            }
+        }
+    });
+
+</script>
 <script>
     var google = document.querySelector(".onclikGooGle");
     var allLinks = document.querySelectorAll(".onclikGooGle a");

@@ -18,6 +18,7 @@ namespace QA_Project.Models
         void Downvote(int post_id, string userid);
 
         // Geting data from database methods below........
+        User_Post GetPostByDiscription(string discription);
         List<User_Post> GetAllPosts();
         List<User_Post> GetAllPostsByTag(int tag_id);
         List<User_Post> GetAllPostsContainingString(string searchString);
@@ -25,6 +26,7 @@ namespace QA_Project.Models
         List<User_Post> GetAllFollowedPostByPostId(int postId);
         List<User_Post> GetAllFollowedCommentByPostId(int postId);
         User_Post GetPostById(int postId);
+        int GetLastOrderOfFollowedPost(int postId);
     }
 
     // All database accessible methods here.
@@ -34,6 +36,8 @@ namespace QA_Project.Models
 
         public void Add_Post(User_Post post)
         {
+            post.Comment_Count = 0;
+            post.View_Count = 0;
             db.All_Posts.Add(post);
             db.SaveChanges();
 
@@ -57,6 +61,23 @@ namespace QA_Project.Models
         {
             db.Followed_Posts.Add(followed_Post);
             db.SaveChanges();
+
+            User_Post mainPost = db.All_Posts.Find(followed_Post.Main_Post_Id);
+            User_Post followedPost = db.All_Posts.Find(followed_Post.Followed_Post_Id);
+            if (followedPost.Post_Type == Post_Type.Answer)
+            {
+                mainPost.Answered_Count += 1;
+                db.SaveChanges();
+            }
+            else if (followedPost.Post_Type == Post_Type.Comment)
+            {
+                if(mainPost.Comment_Count == null)
+                {
+                    mainPost.Comment_Count = 0;
+                }
+                mainPost.Comment_Count += 1;
+                db.SaveChanges();
+            }
         }
 
         public void Add_User_Vote_Of_Post(User_Vote_Of_Post user_Vote_Of_Post)
@@ -105,7 +126,7 @@ namespace QA_Project.Models
             foreach (var tagId in allIds)
             {
                 Tag tag = db.All_Tags.Find(tagId);
-                if(tag.Tag_Name != null && tag.Tag_Name != "")
+                if (tag.Tag_Name != null && tag.Tag_Name != "")
                 {
                     AllTags.Add(tag);
 
@@ -199,6 +220,24 @@ namespace QA_Project.Models
             user_Vote_Of_Post.Post_Id = post_id;
             db.User_Vote_Of_Posts.Add(user_Vote_Of_Post);
             db.SaveChanges();
+        }
+
+        public User_Post GetPostByDiscription(string discription)
+        {
+            return db.All_Posts.Where(x => x.Discription == discription).FirstOrDefault();
+        }
+
+        public int GetLastOrderOfFollowedPost(int postId)
+        {
+            var allFollowedPost = db.Followed_Posts.Where(x => x.Main_Post_Id == postId).ToList();
+            if (allFollowedPost != null)
+            {
+                return allFollowedPost.Count() + 1;
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 

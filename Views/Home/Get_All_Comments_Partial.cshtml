@@ -4,45 +4,53 @@
     Layout = null;
 }
 
-<!-- Reference css for stack overflow view..-->
-<link rel="stylesheet" type="text/css" href="~/Content/shared.css">
-<link rel="stylesheet" type="text/css" href="~/Content/primary.css">
-<link rel="stylesheet" type="text/css" href="~/Content/secondary.css">
-<link rel="stylesheet" type="text/css" href="~/Content/clc.min.css">
 
-<ul class="comments-list js-comments-list" data-remaining-comments-count="0" data-canpost="false"
-    data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+    <div class="comments-list js-comments-list" data-remaining-comments-count="0" data-canpost="false"
+         data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+        @foreach (var item in Model)
+        {
 
-    @foreach (var item in Model)
-    {
+            <!-- Comments here-->
 
-        <!-- COmments here-->
-        <li id="comment-103992640" class="comment js-comment " data-comment-id="103992640">
-            <div class="js-comment-actions comment-actions">
-                <div class="comment-score js-comment-edit-hide">
+            <div id="comment-103992640" class="comment js-comment " data-comment-id="103992640">
+                <div class="comment-text js-comment-text-and-form">
+                    <div class="comment-body hr js-comment-edit-hide">
+
+                        <div class="comment-copy">
+
+                            @Html.DisplayFor(modelItem => item.Discription)
+                        </div>
+
+                        @Html.DisplayFor(modelItem => item.Poster.Email)
+                        <span class="comment-date" dir="ltr">
+                            <span title="2019-11-14 15:56:18Z"
+                                  class="relativetime-clean">
+                                @item.PostedOn.ToString("g")
+                            </span>
+                        </span>
+                    </div>
                 </div>
             </div>
-            <div class="comment-text js-comment-text-and-form">
-                <div class="comment-body js-comment-edit-hide">
-
-                    <span class="comment-copy">
-
-                        @Html.DisplayFor(modelItem => item.Discription)
-                    </span>
-
-                    –&nbsp;<a href="/users/12211588/raouf-bessghaier" title="1 reputation"
-                              class="comment-user owner">                @Html.DisplayFor(modelItem => item.Poster.Email)</a>
-                            <span class="comment-date" dir="ltr">
-                                <a class="comment-link"
-                                   href="#comment103992640_58860454">
-                                    <span title="2019-11-14 15:56:18Z"
-                                          class="relativetime-clean">
-                                        @Html.DisplayFor(modelItem => item.PostedOn)
-                                    </span>
-                                </a>
-                            </span>
-                        </div>
-                    </div>
-                </li>
-            }
-</ul>
+        }
+    </div>
+<style>
+    .hr {
+        width: 100vw;
+        border-bottom:1px solid #e4e6e8;
+    }
+    .comment {
+        -webkit-font-smoothing: antialiased;
+        word-break: break-word;
+        box-sizing: inherit;
+        padding: 0;
+        border: 0;
+        vertical-align: baseline;
+        color: #2E3C57;
+        font-size: 1.2rem;
+        font-family: soleil, sans-serif;
+        font-weight: 400;
+        line-height: 1.8;
+        letter-spacing: -0.48px;
+        margin: 12px 0;
+    }
+</style>
