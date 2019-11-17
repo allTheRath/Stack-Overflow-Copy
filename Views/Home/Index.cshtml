@@ -180,9 +180,6 @@ margin: 12px 0;">
                         <!--Add Comments link here..-->
 
                     <div class="started fr">
-                        @{
-                            Html.RenderAction("Get_All_Comments_Partial", new { post_id = @item.Id });
-                        }
 
                         @{
                             Html.RenderAction("Get_User_Info_Partial", new { post_id = @item.Id });
