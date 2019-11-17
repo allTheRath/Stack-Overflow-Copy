@@ -365,6 +365,69 @@ namespace QA_Project.Controllers
             return RedirectToAction("AllFollowedPost", new { post_id = postid });
         }
 
+
+
+
+        // All user related code below.............
+
+        public ActionResult UpdateProfilePic()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult UpdateProfilePic(HttpPostedFileBase file)
+        {
+
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileextention = Path.GetExtension(file.FileName).ToLower();
+                if (fileextention == ".jpg" || fileextention == ".jpeg" || fileextention == ".bmp" || fileextention == ".png")
+                {
+                    string uid = User.Identity.Name;
+                    if (uid != "")
+                    {
+                        bool exists = Directory.Exists(Server.MapPath("~/User-Profile-Pic/" + uid));
+                        if (!exists)
+                        {
+                            // if directory not exist then create it.
+                            Directory.CreateDirectory(Server.MapPath("~/User-Profile-Pic/" + uid));
+                        }
+                        if (System.IO.File.Exists(Server.MapPath("~/User-Profile-Pic/" + uid + "/" + "profilepic" + fileextention)))
+                        {
+                            // if file exist then delete it.
+                            System.IO.File.Delete(Server.MapPath("~/User-Profile-Pic/" + uid + "/" + "profilepic" + fileextention));
+                        }
+                        var path = Path.Combine(Server.MapPath("~/User-Profile-Pic/" + uid + "/"), "profilepic" + fileextention);
+                        file.SaveAs(path);
+                        string userid = User.Identity.GetUserId();
+                        //Profile profile = db.Profiles.Where(x => x.UserId == userid).FirstOrDefault();
+                        //if (profile != null)
+                        //{
+                        //   // profile.ProfilePic = "/User-Profile-Pic/" + uid + "/profilepic" + fileextention;
+                        //  //  db.SaveChanges();
+                        //}
+                    }
+
+                }
+            }
+
+
+            return RedirectToAction("Student");
+        }
+
+
+
+
+
+
+
+
+
+
+
+        // All extra code ..................
+
         //public ActionResult url(dynamic q)
         //{
         //    string j = Convert.ToString(q);
@@ -380,7 +443,7 @@ namespace QA_Project.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-            ApplicationDbContext context = new ApplicationDbContext();
+            //ApplicationDbContext context = new ApplicationDbContext();
             //var allFollowed = context.Followed_Posts.ToList();
             //foreach (var f in allFollowed)
             //{
@@ -399,7 +462,7 @@ namespace QA_Project.Controllers
 
             ////Seeding questions and answers with relationship with users. 
             //seeding.SeedDatabaseWithData(context);
-            seeding.UpdateCommentCount(context);
+            //seeding.UpdateCommentCount(context);
 
             return View();
         }

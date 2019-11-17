@@ -196,6 +196,10 @@
     <Compile Include="Migrations\201911162342589_addedCommentCount.Designer.cs">
       <DependentUpon>201911162342589_addedCommentCount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911170022026_addedUserImageUrl.cs" />
+    <Compile Include="Migrations\201911170022026_addedUserImageUrl.Designer.cs">
+      <DependentUpon>201911170022026_addedUserImageUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application_Business_Logic.cs" />
@@ -300,9 +304,11 @@
     <Content Include="Views\Home\SearchGoogle.cshtml" />
     <Content Include="Views\User_Post\AddOrCreateTags.cshtml" />
     <Content Include="Views\Home\AddAnswer.cshtml" />
+    <Content Include="Views\Home\UpdateProfilePic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="User-Profile-Pic\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -326,6 +332,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911162342589_addedCommentCount.resx">
       <DependentUpon>201911162342589_addedCommentCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911170022026_addedUserImageUrl.resx">
+      <DependentUpon>201911170022026_addedUserImageUrl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
