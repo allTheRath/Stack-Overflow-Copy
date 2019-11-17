@@ -234,29 +234,12 @@
 
                                         <!--User details-->
                                         <div class="post-signature grid--cell fl0">
-                                            <div class="user-info user-hover">
-                                                <div class="user-action-time">
-                                                    answered <span title="2019-11-14 15:42:14Z" class="relativetime">22 mins ago</span>
-                                                </div>
-                                                <div class="user-gravatar32">
-                                                    <a href="/users/1354800/peter-schneider">
-                                                        <div class="gravatar-wrapper-32">
-                                                            <img src="https://www.gravatar.com/avatar/7a71c67e2f068118e6608f28a5e40b07?s=32&amp;d=identicon&amp;r=PG"
-                                                                 alt="" width="32" height="32" class="bar-sm">
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-                                                    <a href="/users/1354800/peter-schneider">Peter Schneider</a><span class="d-none"
-                                                                                                                      itemprop="name">Peter Schneider</span>
-                                                    <div class="-flair">
-                                                        <span class="reputation-score" title="reputation score " dir="ltr">2,105</span><span title="10 silver badges" aria-hidden="true">
-                                                            <span class="badge2"></span><span class="badgecount">10</span>
-                                                        </span><span class="v-visible-sr">10 silver badges</span><span title="13 bronze badges" aria-hidden="true">
-                                                            <span class="badge3"></span><span class="badgecount">13</span>
-                                                        </span><span class="v-visible-sr">13 bronze badges</span>
-                                                    </div>
-                                                </div>
+                                            <div class="started fr">
+
+                                                @{
+                                                    Html.RenderAction("Get_User_Info_Partial", new { post_id = Model.Id });
+                                                }
+
                                             </div>
 
                                         </div>
