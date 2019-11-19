@@ -90,7 +90,16 @@ namespace QA_Project.Models
 
         public List<User_Post> GetAllPosts()
         {
-            return db.All_Posts.Where(x => x.Post_Type == Post_Type.Question).ToList().OrderByDescending(x => x.PostedOn).ToList();
+            var allposts = db.All_Posts.Where(x => x.Post_Type == Post_Type.Question).ToList();
+
+            if (allposts != null)
+            {
+                return allposts.OrderByDescending(x => x.PostedOn).ToList();
+            }
+            else
+            {
+                return new List<User_Post>();
+            }
         }
 
         public List<User_Post> GetAllPostsByTag(int tag_id)
@@ -100,10 +109,20 @@ namespace QA_Project.Models
             foreach (var postId in allPostsIds)
             {
                 User_Post post = db.All_Posts.Find(postId);
-                All_Post_ByTag_Id.Add(post);
+                if (post != null)
+                {
+                    All_Post_ByTag_Id.Add(post);
+                }
             }
+            if (All_Post_ByTag_Id != null)
+            {
+                return All_Post_ByTag_Id.OrderByDescending(x => x.PostedOn).ToList();
 
-            return All_Post_ByTag_Id.OrderByDescending(x => x.PostedOn).ToList();
+            }
+            else
+            {
+                return new List<User_Post>();
+            }
         }
 
         public List<User_Post> GetAllPostsContainingString(string searchString)
@@ -114,10 +133,21 @@ namespace QA_Project.Models
             List<User_Post> All_Post_ByTag_Id = new List<User_Post>();
             foreach (var tagid in allTagIds)
             {
-                All_Post_ByTag_Id.AddRange(GetAllPostsByTag(tagid));
+                List<User_Post> posts = GetAllPostsByTag(tagid);
+                if (posts != null)
+                {
+                    All_Post_ByTag_Id.AddRange(posts);
+                }
             }
+            if (All_Post_ByTag_Id != null)
+            {
+                return All_Post_ByTag_Id.Distinct().ToList().OrderByDescending(x => x.PostedOn).ToList();
 
-            return All_Post_ByTag_Id.Distinct().ToList().OrderByDescending(x => x.PostedOn).ToList();
+            }
+            else
+            {
+                return new List<User_Post>();
+            }
         }
 
         public List<Tag> GetAllTagsForPostId(int postId)
@@ -146,12 +176,20 @@ namespace QA_Project.Models
             foreach (var followed_post_id in fPostIds)
             {
                 User_Post user_Post = db.All_Posts.Find(followed_post_id);
-                if (user_Post.Post_Type == Post_Type.Answer)
+                if (user_Post != null && user_Post.Post_Type == Post_Type.Answer)
                 {
                     user_Posts.Add(user_Post);
                 }
             }
-            return user_Posts.OrderByDescending(x => x.PostedOn).ToList();
+
+            if (user_Posts != null)
+            {
+                return user_Posts.OrderByDescending(x => x.PostedOn).ToList();
+            }
+            else
+            {
+                return new List<User_Post>();
+            }
         }
 
         public List<User_Post> GetAllFollowedCommentByPostId(int postId)
@@ -162,16 +200,27 @@ namespace QA_Project.Models
             foreach (var followed_post_id in fPostIds)
             {
                 User_Post user_Post = db.All_Posts.Find(followed_post_id);
-                if(user_Post != null)
+                if (user_Post != null)
                 {
                     if (user_Post.Post_Type == Post_Type.Comment)
                     {
-                        user_Posts.Add(user_Post);
+                        if(user_Post != null)
+                        {
+                            user_Posts.Add(user_Post);
+
+                        }
                     }
                 }
 
             }
-            return user_Posts.OrderByDescending(x => x.PostedOn).ToList();
+            if(user_Posts != null)
+            {
+                return user_Posts.OrderByDescending(x => x.PostedOn).ToList();
+            }
+            else
+            {
+                return new List<User_Post>();
+            }
         }
 
         public User_Post GetPostById(int postId)
