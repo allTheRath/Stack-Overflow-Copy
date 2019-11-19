@@ -20,19 +20,20 @@
 
 ### The ability to search google inside this website with out using any external apis. :)
 
+## Home ::)
 
-# [![Main](\Projectimages\main0.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
-# [![Main](\ProjectImages\main1.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
-# [![Main](\ProjectImages\main2.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
-# [![Main](\ProjectImages\main3.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
-# [![Main](\ProjectImages\main4.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
-# [![Main](\ProjectImages\main6.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
-# [![Main](\ProjectImages\main7.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main0.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main1.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main2.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main3.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main4.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main6.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main7.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
 
 ## search related content on google!!
 
-# [![Main](\ProjectImages\main5.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main5.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
 
 ## Responsive !!
-# [![Main](\ProjectImages\main8.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
-# [![Main](\ProjectImages\main9.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main8.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
+# [![Main](/ProjectImages/main9.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
