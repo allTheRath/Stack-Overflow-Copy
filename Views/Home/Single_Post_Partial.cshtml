@@ -40,13 +40,13 @@
 
 
                             <div class="js-voting-container grid fd-column ai-stretch gs4 fc-black-200" data-post-id="58860454">
-                                <a href="@Url.Action("Upvote","Home",new { post_id = @Model.Id })" class="js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This question shows research effort; it is useful and clear" aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary">
+                                <a href="@Url.Action("Upvote","Home",new { post_id = @Model.Id })" class="vote-reloading-stop js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This question shows research effort; it is useful and clear" aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary">
                                     <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36">
                                         <path d="M2 26h32L18 10 2 26z"></path>
                                     </svg>
                                 </a>
                                 <div class="js-vote-count grid--cell fc-black-500 fs-title grid fd-column ai-center" itemprop="upvoteCount" data-value="0">@Model.Voted_Count</div>
-                                <a href="@Url.Action("Downvote",new { post_id = @Model.Id })" class="js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer" title="This question does not show any research effort; it is unclear or not useful" aria-pressed="false" aria-label="down vote" data-selected-classes="fc-theme-primary">
+                                <a href="@Url.Action("Downvote",new { post_id = @Model.Id })" class="vote-reloading-stop js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer" title="This question does not show any research effort; it is unclear or not useful" aria-pressed="false" aria-label="down vote" data-selected-classes="fc-theme-primary">
                                     <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36" viewBox="0 0 36 36">
                                         <path d="M2 10h32L18 26 2 10z"></path>
                                     </svg>
@@ -64,7 +64,6 @@
                             </div>
 
                         </div>
-
 
                         <!-- Question discription here....-->
 
@@ -140,3 +139,5 @@
 
 
 </div>
+
+

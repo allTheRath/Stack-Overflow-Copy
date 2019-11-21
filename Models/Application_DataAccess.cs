@@ -230,7 +230,12 @@ namespace QA_Project.Models
 
         public void Upvote(int post_id, string userid)
         {
+
             var post = db.All_Posts.Find(post_id);
+            if(post.Associated_User_Id == userid)
+            {
+                return;
+            }
             var exist = db.User_Vote_Of_Posts.Where(x => x.Post_Id == post_id && x.Voter_Id == userid).FirstOrDefault();
             if (exist != null)
             {
@@ -259,6 +264,10 @@ namespace QA_Project.Models
         public void Downvote(int post_id, string userid)
         {
             var post = db.All_Posts.Find(post_id);
+            if (post.Associated_User_Id == userid)
+            {
+                return;
+            }
             var exist = db.User_Vote_Of_Posts.Where(x => x.Post_Id == post_id && x.Voter_Id == userid).FirstOrDefault();
             if (exist != null)
             {
