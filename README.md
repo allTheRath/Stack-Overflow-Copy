@@ -20,8 +20,6 @@
 
 ### The ability to search google inside this website with out using any external apis. :)
 
-## Images!
-
 ## Home ::)
 
 # [![Main](/ProjectImages/main0.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
@@ -39,5 +37,3 @@
 ## Responsive !!
 # [![Main](/ProjectImages/main8.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
 # [![Main](/ProjectImages/main9.PNG)](https://github.com/allTheRath/Stack-Overflow-Copy.git)
-
-
